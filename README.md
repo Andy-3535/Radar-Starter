@@ -1,4 +1,4 @@
-# Radar-Starter ![Imgur](https://imgur.com/a/99Dua)
+# Radar-Starter ![Imgur](https://camo.githubusercontent.com/87d71baf2060bafcc9947895d7ab3c97eab4f883/68747470733a2f2f692e696d6775722e636f6d2f6e334a744e35642e706e67)
 
 #### простой и удобный launcher для https://github.com/ReddeR1337/PUBG-Radar
 
