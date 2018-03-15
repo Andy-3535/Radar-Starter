@@ -1,0 +1,15 @@
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Debug\Radar Starter.exe.config
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Debug\Radar Starter.exe
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Debug\Radar Starter.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\MainWindow.g.cs
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\App.g.cs
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter_MarkupCompile.cache
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter_MarkupCompile.lref
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\MainWindow.baml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter.g.resources
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar_Starter.Properties.Resources.resources
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter.csproj.GenerateResource.cache
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter.csproj.CoreCompileInputs.cache
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter.exe
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Radar Starter.csprojResolveAssemblyReference.cache
