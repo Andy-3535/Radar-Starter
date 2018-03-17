@@ -2,7 +2,7 @@
 
 #### Простой и удобный launcher для https://github.com/ReddeR1337/PUBG-Radar
 
-![Imgur](https://image.ibb.co/nvFu9c/image.png)
+![Imgur](https://image.ibb.co/meKPaH/image.png)
 
 #### Запуск launcher:
 * Запуcтите VPN согласно мануалу (см. видео по настройке VPN https://youtu.be/H_gud8xuP-s)
