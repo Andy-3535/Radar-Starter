@@ -1,17 +1,21 @@
-﻿<Window x:Class="Radar_Starter.MainWindow"
+﻿<Controls:MetroWindow x:Class="Radar_Starter.MainWindow"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Radar_Starter"
         mc:Ignorable="d"
-        Title="Made By Lafko" Height="236.825" Width="385.629" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Made By Lafko" Height="244.122" Width="385.629" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Margin="0,0,2,0">
-        <Button Content="Start Radar" HorizontalAlignment="Left" Margin="38,20,0,0" VerticalAlignment="Top" Width="304" Height="36" Click="Button_Click"/>
+        <Button Content="Start Radar" HorizontalAlignment="Left" Margin="38,20,0,0" VerticalAlignment="Top" Width="222" Height="36" Click="Button_Click"/>
         <ComboBox x:Name="comboBoxLanInternet" HorizontalAlignment="Left" Margin="38,92,0,0" VerticalAlignment="Top" Width="304" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0"/>
         <Label Content="RADAR PC IP:" HorizontalAlignment="Left" Margin="38,66,0,0" VerticalAlignment="Top" Width="304"/>
         <ComboBox x:Name="comboBoxLanInternet2" HorizontalAlignment="Left" Margin="38,153,0,0" VerticalAlignment="Top" Width="304" SelectionChanged="ComboBox_SelectionChanged_1" SelectedIndex="0"/>
-        <Label Content="GAME PC IP:" HorizontalAlignment="Left" Margin="38,127,0,0" VerticalAlignment="Top" Width="304"/>
+        <Label x:Name="LabelLanInternet2" Content="GAME PC IP:" HorizontalAlignment="Left" Margin="38,127,0,0" VerticalAlignment="Top" Width="304"/>
+        <CheckBox x:Name="CheckBox1" Content="Arpspoof" HorizontalAlignment="Left" Margin="265,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.305,-0.515" Height="36" Width="77" Checked="CheckBox_Checked" Unchecked="CheckBox1_Unchecked"/>
+        <TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="23" Margin="38,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="304" TextChanged="TextBox1_TextChanged" Visibility="Hidden"/>
+        <Label x:Name="Lable1" Content="ENTER GAME PC IP:" HorizontalAlignment="Left" Margin="38,127,0,0" VerticalAlignment="Top" Width="304" Visibility="Hidden"/>
 
     </Grid>
-</Window>
+</Controls:MetroWindow>

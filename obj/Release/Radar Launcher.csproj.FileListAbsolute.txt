@@ -1,0 +1,23 @@
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\Radar Launcher.exe.config
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\Radar Launcher.exe
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\Radar Launcher.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\ControlzEx.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\MahApps.Metro.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\System.Windows.Interactivity.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\ControlzEx.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\MahApps.Metro.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\MahApps.Metro.xml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.csprojResolveAssemblyReference.cache
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\MainWindow.g.cs
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\App.g.cs
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher_MarkupCompile.cache
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher_MarkupCompile.lref
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\App.baml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\MainWindow.baml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.g.resources
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar_Launcher.Properties.Resources.resources
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.csproj.GenerateResource.cache
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.csproj.CoreCompileInputs.cache
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.csproj.CopyComplete
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.exe
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.pdb
