@@ -124,9 +124,12 @@ namespace Radar_Starter
             {
                 foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                 {
-                    if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                    if (ni.NetworkInterfaceType != NetworkInterfaceType.Loopback & ni.NetworkInterfaceType != NetworkInterfaceType.Ethernet)
                     {
-                        comboBoxLanInternet2.Items.Add(ip.Address.ToString() + ": " + ni.Name);
+                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            comboBoxLanInternet2.Items.Add(ip.Address.ToString() + ": " + ni.Name);
+                        }
                     }
                 }
             }
