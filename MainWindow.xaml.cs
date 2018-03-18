@@ -107,12 +107,11 @@ namespace Radar_Starter
             {
                 if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
                 {
-                    Console.WriteLine(ni.Name);
                     foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                     {
                         if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
                         {
-                            comboBoxLanInternet.Items.Add(ip.Address.ToString());
+                            comboBoxLanInternet.Items.Add(ip.Address.ToString() + ": " + ni.Name);
                         }
                     }
                 }
@@ -121,15 +120,14 @@ namespace Radar_Starter
 
         private void GetAllLocalIp()
         {
-            string strHostName = Dns.GetHostName();
-
-            IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
-
-            foreach (IPAddress ipAddress in ipEntry.AddressList)
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
             {
-                if (ipAddress.AddressFamily.ToString() == "InterNetwork")
+                foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                 {
-                    comboBoxLanInternet2.Items.Add(ipAddress.ToString());
+                    if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        comboBoxLanInternet2.Items.Add(ip.Address.ToString() + ": " + ni.Name);
+                    }
                 }
             }
         }
