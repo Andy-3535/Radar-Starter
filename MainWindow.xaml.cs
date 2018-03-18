@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using MahApps.Metro.Controls;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Radar_Starter
 {
@@ -77,8 +78,8 @@ namespace Radar_Starter
                 {
                     string b = s;
                     string p = Path.GetFileName(b);
-
-                    Process.Start("java", " -jar " + p + " " + LocalIpAdress + " PortFilter " + SomeText);
+                    string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
+                    Process.Start("java", " -jar " + p + " " + LocalIpAdressFilter + " PortFilter " + SomeText);
                 }
                 Environment.Exit(0);
             }
@@ -95,8 +96,9 @@ namespace Radar_Starter
             {
                 string a = s;
                 string p = Path.GetFileName(a);
-               
-                Process.Start("java", " -jar " + p + " " + LocalIpAdress + " PortFilter " + AllIpAdress);
+                string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
+                string AllIpAdressFilter = Regex.Replace(AllIpAdress, "[^0-9 .]", "");
+                Process.Start("java", " -jar " + p + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter);
             }
             Environment.Exit(0);
         }
@@ -124,7 +126,7 @@ namespace Radar_Starter
             {
                 foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                 {
-                    if (ni.NetworkInterfaceType != NetworkInterfaceType.Loopback & ni.NetworkInterfaceType != NetworkInterfaceType.Ethernet)
+                    if (ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
                     {
                         if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
                         {
