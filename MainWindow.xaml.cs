@@ -3,11 +3,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
-using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using MahApps.Metro.Controls;
-using System.Net;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace Radar_Starter
 {
@@ -16,6 +16,7 @@ namespace Radar_Starter
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private System.Windows.Forms.NotifyIcon MyNotifyIcon;
         public static string LocalIpAdress;
         public static string AllIpAdress;
         public static string SomeText;
@@ -23,12 +24,19 @@ namespace Radar_Starter
         public MainWindow()
         {
             InitializeComponent();
+            MyNotifyIcon = new System.Windows.Forms.NotifyIcon();
+            MyNotifyIcon.Icon = new System.Drawing.Icon(SystemIcons.Exclamation, 40, 40);
+            MyNotifyIcon.MouseDoubleClick +=
+                new System.Windows.Forms.MouseEventHandler
+                    (MyNotifyIcon_MouseDoubleClick);
             findJavaVersion();
             GetLocalIp();
             GetAllLocalIp();
             CheckBox1.IsChecked = Radar_Launcher.Properties.Settings.Default.CheckBoxSave;
             TextBox1.Text = Radar_Launcher.Properties.Settings.Default.TextBoxSave;
+
         }
+
 
         static private void findJavaVersion()
         {
@@ -45,62 +53,105 @@ namespace Radar_Starter
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Java Error " + ex.Message);
-                Process.Start("http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html");
+                System.Windows.MessageBox.Show("Java Error " + ex.Message);
+                Process.Start("http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html");
                 Environment.Exit(0);
             }
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (CheckBox1.IsChecked == true)
+            Process proc = new Process();
+            proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.OutputDataReceived += proc_OutputDataReceived;
+            if (CheckBox2.IsChecked == true)
             {
-                Radar_Launcher.Properties.Settings.Default.CheckBoxSave = true;
-                SomeText = TextBox1.Text;
-                Radar_Launcher.Properties.Settings.Default.TextBoxSave = SomeText;
+                TextBoxCmd.Text = "Launching the radar... \nThis is Offline mod.";
+                Radar_Launcher.Properties.Settings.Default.CheckBoxSave = false;
                 Radar_Launcher.Properties.Settings.Default.Save();
-                var a = Directory.GetFiles(Environment.CurrentDirectory, "arpspoof.exe");
-                if (a.Length == 0)
+                var f = Directory.GetFiles(Environment.CurrentDirectory, "*.jar");
+                if (f.Length == 0)
                 {
-                    MessageBox.Show("No arpspoof.exe!");
-                    Process.Start("https://github.com/alandau/arpspoof/releases");
-                    Environment.Exit(0);
+                    System.Windows.MessageBox.Show("No jar radar file!");
+                    Process.Start("https://vmradar.net/index.php?/files/file/1-vmradar-22032018-compiled-version/");
+
                 }
-                Process.Start("arpspoof.exe", SomeText);
-                System.Threading.Thread.Sleep(1000);
-                var v = Directory.GetFiles(Environment.CurrentDirectory, "*.jar");
-                if (v.Length == 0)
+                foreach (var s in f)
                 {
-                    MessageBox.Show("No jar radar file!");
-                    Process.Start("https://github.com/Lafko/Radar-Starter/releases");
-                    Environment.Exit(0);
-                }
-                foreach (var s in v)
-                {
-                    string b = s;
-                    string p = Path.GetFileName(b);
+                    string a = s;
+                    string p = Path.GetFileName(a);
                     string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
-                    Process.Start("java", " -jar " + p + " " + LocalIpAdressFilter + " PortFilter " + SomeText);
+                    string AllIpAdressFilter = Regex.Replace(AllIpAdress, "[^0-9 .]", "");
+                    proc.StartInfo.FileName = "java";
+                    proc.StartInfo.Arguments = "-jar " + p + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " Offline";
+                    proc.Start();
+                    proc.BeginOutputReadLine();
                 }
-                Environment.Exit(0);
+                
             }
-            Radar_Launcher.Properties.Settings.Default.CheckBoxSave = false;
-            Radar_Launcher.Properties.Settings.Default.Save();
-            var f = Directory.GetFiles(Environment.CurrentDirectory, "*.jar");
-            if (f.Length == 0)
+            else
             {
-                MessageBox.Show("No jar radar file!");
-                Process.Start("https://github.com/Lafko/Radar-Starter/releases");
-                Environment.Exit(0);
-            }
-            foreach (var s in f)
+                if (CheckBox1.IsChecked == true)
+             {
+                 TextBoxCmd.Text = "Launching the radar with arpspoof...";
+                 Radar_Launcher.Properties.Settings.Default.CheckBoxSave = true;
+                 SomeText = TextBox1.Text;
+                 Radar_Launcher.Properties.Settings.Default.TextBoxSave = SomeText;
+                 Radar_Launcher.Properties.Settings.Default.Save();
+                 var a = Directory.GetFiles(Environment.CurrentDirectory, "arpspoof.exe");
+                 if (a.Length == 0)
+                 {
+                     System.Windows.MessageBox.Show("No arpspoof.exe!");
+                     Process.Start("https://github.com/alandau/arpspoof/releases");
+                     Environment.Exit(0);
+                 }
+                 Process.Start("arpspoof.exe", SomeText);
+                 System.Threading.Thread.Sleep(1000);
+                 var v = Directory.GetFiles(Environment.CurrentDirectory, "*.jar");
+                 if (v.Length == 0)
+                 {
+                     System.Windows.MessageBox.Show("No jar radar file!");
+                     Process.Start("https://vmradar.net/index.php?/files/file/1-vmradar-22032018-compiled-version/");
+                     Environment.Exit(0);
+                 }
+                 foreach (var s in v)
+                 {
+                     string b = s;
+                     string p = Path.GetFileName(b);
+                     string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
+                    proc.StartInfo.FileName = "java";
+                    proc.StartInfo.Arguments = "-jar " + p + " " + LocalIpAdressFilter + " PortFilter " + SomeText;
+                    proc.Start();
+                    proc.BeginOutputReadLine();
+                 }
+                 
+             }
+            else
             {
-                string a = s;
-                string p = Path.GetFileName(a);
-                string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
-                string AllIpAdressFilter = Regex.Replace(AllIpAdress, "[^0-9 .]", "");
-                Process.Start("java", " -jar " + p + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter);
+                TextBoxCmd.Text = "Launching the radar... \nThis is Online mod.";
+                Radar_Launcher.Properties.Settings.Default.CheckBoxSave = false;
+                Radar_Launcher.Properties.Settings.Default.Save();
+                var f = Directory.GetFiles(Environment.CurrentDirectory, "*.jar");
+                if (f.Length == 0)
+                {
+                    System.Windows.MessageBox.Show("No jar radar file!");
+                    Process.Start("https://vmradar.net/index.php?/files/file/1-vmradar-22032018-compiled-version/");
+
+                }
+                foreach (var s in f)
+                {
+                    string a = s;
+                    string p = Path.GetFileName(a);
+                    string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
+                    string AllIpAdressFilter = Regex.Replace(AllIpAdress, "[^0-9 .]", "");
+                    proc.StartInfo.FileName = "java";
+                    proc.StartInfo.Arguments = "-jar " + p + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter;
+                    proc.Start();
+                    proc.BeginOutputReadLine();
+                }
             }
-            Environment.Exit(0);
+            }
         }
 
         private void GetLocalIp()
@@ -111,7 +162,7 @@ namespace Radar_Starter
                 {
                     foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                     {
-                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         {
                             comboBoxLanInternet.Items.Add(ip.Address.ToString() + ": " + ni.Name);
                         }
@@ -128,7 +179,7 @@ namespace Radar_Starter
                 {
                     if (ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
                     {
-                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         {
                             comboBoxLanInternet2.Items.Add(ip.Address.ToString() + ": " + ni.Name);
                         }
@@ -149,6 +200,10 @@ namespace Radar_Starter
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            if (CheckBox1.IsChecked == true)
+            {
+                CheckBox2.IsChecked = false;
+            }
             TextBox1.Visibility = Visibility.Visible;
             Lable1.Visibility = Visibility.Visible;
             comboBoxLanInternet2.Visibility = Visibility.Hidden;
@@ -157,7 +212,7 @@ namespace Radar_Starter
 
         private void TextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
+
         }
 
         private void CheckBox1_Unchecked(object sender, RoutedEventArgs e)
@@ -167,6 +222,49 @@ namespace Radar_Starter
             comboBoxLanInternet2.Visibility = Visibility.Visible;
             LabelLanInternet2.Visibility = Visibility.Visible;
         }
-    }
 
+        private void CheckBox2_Checked(object sender, RoutedEventArgs e)
+        {
+            if (CheckBox2.IsChecked == true)
+            {
+                CheckBox1.IsChecked = false;
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
+
+        void proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                TextBoxCmd.Text = TextBoxCmd.Text + "\n" + e.Data;
+                TextBoxCmd.ScrollToEnd();
+            }));
+        }
+
+        void MyNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+        }
+
+        private void MetroWindow_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Minimized)
+            {
+                MyNotifyIcon.BalloonTipTitle = "Minimize Sucessful";
+                MyNotifyIcon.BalloonTipText = "Minimized the app VMRadar Launcher";
+                MyNotifyIcon.ShowBalloonTip(400);
+                this.ShowInTaskbar = false;
+                MyNotifyIcon.Visible = true;
+            }
+            else if (this.WindowState == WindowState.Normal)
+            {
+                MyNotifyIcon.Visible = false;
+                this.ShowInTaskbar = true;
+            }
+        }
+    }
 }

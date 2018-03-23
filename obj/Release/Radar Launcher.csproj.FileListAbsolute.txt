@@ -21,3 +21,18 @@ C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launch
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.csproj.CopyComplete
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.exe
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Radar Launcher.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PacketDotNet.xml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\SharpPcap.xml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\SharpPcap.dll.config
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Base.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Core.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Core.Extensions.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Packets.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Base.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Base.xml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Core.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Core.xml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Core.Extensions.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Core.Extensions.xml
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Packets.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\PcapDotNet.Packets.xml

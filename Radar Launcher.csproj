@@ -51,6 +51,9 @@
   <PropertyGroup>
     <ApplicationIcon>52448.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -58,8 +61,28 @@
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="PacketDotNet">
+      <HintPath>..\..\..\..\Desktop\Release\PacketDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="PcapDotNet.Base">
+      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="PcapDotNet.Core">
+      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PcapDotNet.Core.Extensions">
+      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Core.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="PcapDotNet.Packets">
+      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Packets.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpPcap">
+      <HintPath>..\..\..\..\Desktop\Release\SharpPcap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -136,6 +159,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="52448.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Untitled-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Lvlp9MQFsuZUaJYV5Z849Scq.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

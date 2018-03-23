@@ -46,5 +46,17 @@ namespace Radar_Launcher.Properties {
                 this["TextBoxSave"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CheckBoxSave2 {
+            get {
+                return ((bool)(this["CheckBoxSave2"]));
+            }
+            set {
+                this["CheckBoxSave2"] = value;
+            }
+        }
     }
 }
