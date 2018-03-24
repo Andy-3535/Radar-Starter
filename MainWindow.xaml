@@ -6,20 +6,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Radar_Starter"
         mc:Ignorable="d"
-        Title="VMRADAR.NET" Height="526.122" Width="631.629" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" StateChanged="MetroWindow_StateChanged">
+        Title="Made by Lafko" Height="526.122" Width="631.629" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" StateChanged="MetroWindow_StateChanged">
     <Grid Margin="0,0,2,0">
         <Button Content="Start Radar" HorizontalAlignment="Left" Margin="187,451,0,0" VerticalAlignment="Top" Width="222" Height="36" Click="Button_Click"/>
         <ComboBox x:Name="comboBoxLanInternet" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="282" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0"/>
         <Label Content="RADAR PC IP:" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Width="282"/>
         <ComboBox x:Name="comboBoxLanInternet2" HorizontalAlignment="Left" Margin="333,135,0,0" VerticalAlignment="Top" Width="285" SelectionChanged="ComboBox_SelectionChanged_1" SelectedIndex="0"/>
         <Label x:Name="LabelLanInternet2" Content="GAME PC IP:" HorizontalAlignment="Left" Margin="333,109,0,0" VerticalAlignment="Top" Width="290"/>
-        <CheckBox x:Name="CheckBox1" Content="Arpspoof" HorizontalAlignment="Left" Margin="187,428,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.305,-0.515" Height="18" Width="77" Checked="CheckBox_Checked" Unchecked="CheckBox1_Unchecked"/>
+        <CheckBox x:Name="CheckBox1" Content="Arpspoof" HorizontalAlignment="Left" Margin="190,428,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.305,-0.515" Height="18" Width="77" Checked="CheckBox_Checked" Unchecked="CheckBox1_Unchecked"/>
         <TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="23" Margin="333,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="285" TextChanged="TextBox1_TextChanged" Visibility="Hidden"/>
         <Label x:Name="Lable1" Content="ENTER GAME PC IP:" HorizontalAlignment="Left" Margin="333,109,0,0" VerticalAlignment="Top" Width="285" Visibility="Hidden"/>
-        <Image Margin="171,10,62,378" Source="Untitled-2.png" Stretch="Fill"/>
         <CheckBox x:Name="CheckBox2" Content="Offline (PCAP)" HorizontalAlignment="Left" Margin="310,428,0,0" VerticalAlignment="Top" Checked="CheckBox2_Checked" RenderTransformOrigin="0.475,0.444"/>
         <TextBox x:Name="TextBoxCmd" HorizontalAlignment="Left" Height="253" Margin="10,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="608" TextChanged="TextBox_TextChanged" Controls:ControlsHelper.FocusBorderBrush="Black"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Background="Black" Foreground="White"/>
-        <Image Margin="66,-7,434,378" Source="Lvlp9MQFsuZUaJYV5Z849Scq.png" Stretch="Fill"/>
-
+        <TextBlock Margin="558,474,0,2">           
+        <Hyperlink NavigateUri="https://github.com/Lafko/Radar-Starter/releases/" RequestNavigate="Hyperlink_RequestNavigate" >
+        github.com
+        </Hyperlink>
+        </TextBlock>
     </Grid>
 </Controls:MetroWindow>

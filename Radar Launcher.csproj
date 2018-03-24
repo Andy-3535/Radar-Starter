@@ -28,6 +28,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,42 +51,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>52448.ico</ApplicationIcon>
+    <ApplicationIcon>Launcher_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="PacketDotNet">
-      <HintPath>..\..\..\..\Desktop\Release\PacketDotNet.dll</HintPath>
-    </Reference>
-    <Reference Include="PcapDotNet.Base">
-      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="PcapDotNet.Core">
-      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="PcapDotNet.Core.Extensions">
-      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Core.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="PcapDotNet.Packets">
-      <HintPath>..\..\..\..\Desktop\Release\PcapDotNet.Binaries.1.0.4.x86\PcapDotNet.Packets.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpPcap">
-      <HintPath>..\..\..\..\Desktop\Release\SharpPcap.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\MahApps.Metro.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dlls\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -104,6 +95,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -122,20 +118,18 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -158,13 +152,34 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="52448.ico" />
+    <None Include="bin\Release\VMRadar-1.2.1-jar-with-dependencies.jar" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Untitled-2.png" />
+    <Resource Include="Launcher_icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Lvlp9MQFsuZUaJYV5Z849Scq.png" />
+    <None Include="Resources\arpspoof.exe" />
+    <None Include="dlls\System.Windows.Interactivity.dll" />
+    <None Include="dlls\MahApps.Metro.dll" />
+    <None Include="dlls\ControlzEx.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ControlzEx.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MahApps.Metro.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\System.Windows.Interactivity.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Launcher_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Launcher_pic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="VMRadar_pic.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

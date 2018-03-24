@@ -8,6 +8,7 @@ using MahApps.Metro.Controls;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Navigation;
 
 namespace Radar_Starter
 {
@@ -16,27 +17,24 @@ namespace Radar_Starter
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private System.Windows.Forms.NotifyIcon MyNotifyIcon;
+        private NotifyIcon MyNotifyIcon;
         public static string LocalIpAdress;
         public static string AllIpAdress;
         public static string SomeText;
+        
 
         public MainWindow()
         {
             InitializeComponent();
-            MyNotifyIcon = new System.Windows.Forms.NotifyIcon();
-            MyNotifyIcon.Icon = new System.Drawing.Icon(SystemIcons.Exclamation, 40, 40);
-            MyNotifyIcon.MouseDoubleClick +=
-                new System.Windows.Forms.MouseEventHandler
-                    (MyNotifyIcon_MouseDoubleClick);
+            MyNotifyIcon = new NotifyIcon();
+            MyNotifyIcon.Icon = new Icon(Radar_Launcher.Properties.Resources.Launcher_icon, 40, 40);
+            MyNotifyIcon.MouseDoubleClick += new MouseEventHandler(MyNotifyIcon_MouseDoubleClick);
             findJavaVersion();
             GetLocalIp();
             GetAllLocalIp();
             CheckBox1.IsChecked = Radar_Launcher.Properties.Settings.Default.CheckBoxSave;
             TextBox1.Text = Radar_Launcher.Properties.Settings.Default.TextBoxSave;
-
         }
-
 
         static private void findJavaVersion()
         {
@@ -74,7 +72,7 @@ namespace Radar_Starter
                 if (f.Length == 0)
                 {
                     System.Windows.MessageBox.Show("No jar radar file!");
-                    Process.Start("https://vmradar.net/index.php?/files/file/1-vmradar-22032018-compiled-version/");
+                    Process.Start("https://github.com/Lafko/Radar-Starter/releases/");
 
                 }
                 foreach (var s in f)
@@ -94,7 +92,7 @@ namespace Radar_Starter
             {
                 if (CheckBox1.IsChecked == true)
              {
-                 TextBoxCmd.Text = "Launching the radar with arpspoof...";
+                    TextBoxCmd.Text = "Launching the radar with arpspoof...";
                  Radar_Launcher.Properties.Settings.Default.CheckBoxSave = true;
                  SomeText = TextBox1.Text;
                  Radar_Launcher.Properties.Settings.Default.TextBoxSave = SomeText;
@@ -112,7 +110,7 @@ namespace Radar_Starter
                  if (v.Length == 0)
                  {
                      System.Windows.MessageBox.Show("No jar radar file!");
-                     Process.Start("https://vmradar.net/index.php?/files/file/1-vmradar-22032018-compiled-version/");
+                     Process.Start("https://github.com/Lafko/Radar-Starter/releases/");
                      Environment.Exit(0);
                  }
                  foreach (var s in v)
@@ -132,14 +130,14 @@ namespace Radar_Starter
                 TextBoxCmd.Text = "Launching the radar... \nThis is Online mod.";
                 Radar_Launcher.Properties.Settings.Default.CheckBoxSave = false;
                 Radar_Launcher.Properties.Settings.Default.Save();
-                var f = Directory.GetFiles(Environment.CurrentDirectory, "*.jar");
+                    var f = Directory.GetFiles(Environment.CurrentDirectory, "*.jar");
                 if (f.Length == 0)
                 {
                     System.Windows.MessageBox.Show("No jar radar file!");
-                    Process.Start("https://vmradar.net/index.php?/files/file/1-vmradar-22032018-compiled-version/");
+                    Process.Start("https://github.com/Lafko/Radar-Starter/releases/");
 
                 }
-                foreach (var s in f)
+                    foreach (var s in f)
                 {
                     string a = s;
                     string p = Path.GetFileName(a);
@@ -203,6 +201,11 @@ namespace Radar_Starter
             if (CheckBox1.IsChecked == true)
             {
                 CheckBox2.IsChecked = false;
+                using (FileStream fs = File.Create(Environment.CurrentDirectory + "/arpspoof.exe"))
+                {
+                    Byte[] info = Radar_Launcher.Properties.Resources.arpspoof;
+                    fs.Write(info, 0, info.Length);
+                }
             }
             TextBox1.Visibility = Visibility.Visible;
             Lable1.Visibility = Visibility.Visible;
@@ -265,6 +268,16 @@ namespace Radar_Starter
                 MyNotifyIcon.Visible = false;
                 this.ShowInTaskbar = true;
             }
+        }
+
+        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }
