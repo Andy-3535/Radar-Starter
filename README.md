@@ -1,8 +1,8 @@
-# Radar-Starter ![Imgur](https://image.ibb.co/nb2ozn/2.png)
+# Radar-Starter !
 
-#### Простой и удобный launcher для https://github.com/Jerry1211/RadarProject
+#### Простой и удобный launcher для https://github.com/Jerry1211/RadarProject (на данный момент поддержка версии Albedo из https://yougame.biz/threads/40333/)
 
-![Imgur](https://image.ibb.co/meKPaH/image.png)
+![Imgur](https://image.ibb.co/nb2ozn/2.png)
 
 
 #### ФУНКЦИИ:
