@@ -13,6 +13,9 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,11 +28,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,9 +60,20 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ApplicationUpdate, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\ApplicationUpdate.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoHotkey.Interop">
+      <HintPath>Resources\AutoHotkey.Interop.dll</HintPath>
+    </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dlls\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -95,11 +106,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="NativeStructures.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RadarSettings.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +143,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -158,10 +181,9 @@
     <Resource Include="Launcher_icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\aim.ahk" />
+    <None Include="Resources\app.version" />
     <None Include="Resources\arpspoof.exe" />
-    <None Include="dlls\System.Windows.Interactivity.dll" />
-    <None Include="dlls\MahApps.Metro.dll" />
-    <None Include="dlls\ControlzEx.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ControlzEx.dll" />
@@ -170,6 +192,7 @@
     <None Include="Resources\MahApps.Metro.dll" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\settings.json" />
     <None Include="Resources\System.Windows.Interactivity.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +203,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="VMRadar_pic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="visual_main.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pubg_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ionic.Zip.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ApplicationUpdate.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AutoHotkey.Interop.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

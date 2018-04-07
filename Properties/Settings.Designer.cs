@@ -25,37 +25,37 @@ namespace Radar_Launcher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CheckBoxSave {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TextBoxGamePCIP {
             get {
-                return ((bool)(this["CheckBoxSave"]));
+                return ((string)(this["TextBoxGamePCIP"]));
             }
             set {
-                this["CheckBoxSave"] = value;
+                this["TextBoxGamePCIP"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TextBoxSave {
+        public string TextBoxRadarPCIP {
             get {
-                return ((string)(this["TextBoxSave"]));
+                return ((string)(this["TextBoxRadarPCIP"]));
             }
             set {
-                this["TextBoxSave"] = value;
+                this["TextBoxRadarPCIP"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool CheckBoxSave2 {
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public string Color {
             get {
-                return ((bool)(this["CheckBoxSave2"]));
+                return ((string)(this["Color"]));
             }
             set {
-                this["CheckBoxSave2"] = value;
+                this["Color"] = value;
             }
         }
     }

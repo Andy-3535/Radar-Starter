@@ -5,23 +5,78 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Radar_Starter"
+        GlowBrush="{DynamicResource AccentColorBrush}"
         mc:Ignorable="d"
-        Title="Made by Lafko" Height="526.122" Width="631.629" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" StateChanged="MetroWindow_StateChanged">
-    <Grid Margin="0,0,2,0">
-        <Button Content="Start Radar" HorizontalAlignment="Left" Margin="187,451,0,0" VerticalAlignment="Top" Width="222" Height="36" Click="Button_Click"/>
-        <ComboBox x:Name="comboBoxLanInternet" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="282" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0"/>
-        <Label Content="RADAR PC IP:" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Width="282"/>
-        <ComboBox x:Name="comboBoxLanInternet2" HorizontalAlignment="Left" Margin="333,135,0,0" VerticalAlignment="Top" Width="285" SelectionChanged="ComboBox_SelectionChanged_1" SelectedIndex="0"/>
-        <Label x:Name="LabelLanInternet2" Content="GAME PC IP:" HorizontalAlignment="Left" Margin="333,109,0,0" VerticalAlignment="Top" Width="290"/>
-        <CheckBox x:Name="CheckBox1" Content="Arpspoof" HorizontalAlignment="Left" Margin="190,428,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.305,-0.515" Height="18" Width="77" Checked="CheckBox_Checked" Unchecked="CheckBox1_Unchecked"/>
-        <TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="23" Margin="333,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="285" TextChanged="TextBox1_TextChanged" Visibility="Hidden"/>
-        <Label x:Name="Lable1" Content="ENTER GAME PC IP:" HorizontalAlignment="Left" Margin="333,109,0,0" VerticalAlignment="Top" Width="285" Visibility="Hidden"/>
-        <CheckBox x:Name="CheckBox2" Content="Offline (PCAP)" HorizontalAlignment="Left" Margin="310,428,0,0" VerticalAlignment="Top" Checked="CheckBox2_Checked" RenderTransformOrigin="0.475,0.444"/>
-        <TextBox x:Name="TextBoxCmd" HorizontalAlignment="Left" Height="253" Margin="10,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="608" TextChanged="TextBox_TextChanged" Controls:ControlsHelper.FocusBorderBrush="Black"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Background="Black" Foreground="White"/>
-        <TextBlock Margin="558,474,0,2">           
-        <Hyperlink NavigateUri="https://github.com/Lafko/Radar-Starter/releases/" RequestNavigate="Hyperlink_RequestNavigate" >
-        github.com
-        </Hyperlink>
-        </TextBlock>
+        Title="Radar Launcher" Height="564.455" Width="631.329" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" Closing="MetroWindow_Closing" StateChanged="MetroWindow_StateChanged_1">
+    <Grid Margin="0,0,0,-1">
+        <TabControl HorizontalAlignment="Left" Height="533" VerticalAlignment="Top" Width="627">
+            <TabItem Header="Radar">
+                <Grid Background="White">
+                    <Image Margin="164,-25,159,225" Source="pubg_icon.png" Stretch="Fill"/>
+                    <TextBox x:Name="TextBoxGamePCIP" HorizontalAlignment="Left" Height="23" Margin="332,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="276" TextChanged="TextBox1_TextChanged" Controls:TextBoxHelper.Watermark="Enter Game PC IP" Controls:TextBoxHelper.ClearTextButton="True" Visibility="Hidden"/>
+
+                    <TextBox x:Name="TextBoxRadarPCIP" HorizontalAlignment="Left" Height="23" Margin="15,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="282" Controls:TextBoxHelper.Watermark="Enter Radar PC IP" Controls:TextBoxHelper.ClearTextButton="True" Visibility="Hidden"/>
+                    <Button x:Name="Button1" Content="Start Radar" HorizontalAlignment="Left" Margin="56,439,0,0" VerticalAlignment="Top" Width="222" Height="36" Click="Button_Click"/>
+                    <Controls:Badged x:Name="Badge1" Badge="{Binding BadgeValue}" Margin="19,118,324,302">
+                        <!-- Control to wrap goes here -->
+                        <ComboBox x:Name="comboBoxLanInternet" HorizontalAlignment="Left" VerticalAlignment="Top" Width="278" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0" Height="26"/>
+                    </Controls:Badged>
+                    <Label Content="RADAR PC IP:" HorizontalAlignment="Left" Margin="19,92,0,0" VerticalAlignment="Top" Width="280"/>
+                    <Controls:Badged x:Name="Badge2" Badge="{Binding BadgeValue2}" Margin="334,118,15,302">
+                        <ComboBox x:Name="comboBoxLanInternet2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="272" SelectionChanged="ComboBox_SelectionChanged_1" SelectedIndex="0" RenderTransformOrigin="0.5,0.5"/>
+                    </Controls:Badged>
+                    <Label x:Name="LabelLanInternet2" Content="GAME PC IP:" HorizontalAlignment="Left" Margin="334,92,0,0" VerticalAlignment="Top" Width="278"/>
+                    <TextBox x:Name="TextBoxCmd" HorizontalAlignment="Left" Height="253" Margin="6,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="613" TextChanged="TextBox_TextChanged" Controls:ControlsHelper.FocusBorderBrush="Black" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" Background="Black" Foreground="White" />
+                    <TextBlock Margin="558,462,2,8"><Hyperlink NavigateUri="https://github.com/Lafko/Radar-Starter/" RequestNavigate="Hyperlink_RequestNavigate" ><Run Text="github.com"/></Hyperlink></TextBlock>
+
+                    <Button Content="clear" HorizontalAlignment="Left" Margin="534,376,0,0" VerticalAlignment="Top" Width="66" Height="22" Click="Button_Click_2" ToolTip="Clear console." ToolTipService.ShowDuration="7000"/>
+                    <RadioButton x:Name="RadioArp" Content="Arp Wi-Fi" HorizontalAlignment="Left" Margin="198,416,0,0" VerticalAlignment="Top" Checked="RadioArp_Checked" Unchecked="RadioArp_Unchecked" ToolTip="If one of PC use Wi-fi, use this." ToolTipService.ShowDuration="7000"/>
+                    <RadioButton x:Name="RadioCustomIp" Content="Custom IP" HorizontalAlignment="Left" Margin="56,416,0,0" VerticalAlignment="Top" Checked="RadioCustomIp_Checked" Unchecked="RadioCustomIp_Unchecked" ToolTip="Enter IP addresses manually." ToolTipService.ShowDuration="7000"/>
+                    <RadioButton x:Name="RadioPCAP" Content="Offline (PCAP)" HorizontalAlignment="Left" Margin="330,416,0,0" VerticalAlignment="Top" Checked="RadioPCAP_Checked" Unchecked="RadioPCAP_Unchecked" ToolTip="This is Offline mod (Replays)." ToolTipService.ShowDuration="7000"/>
+                    <RadioButton x:Name="RadioAuto" Content="Auto IP" HorizontalAlignment="Left" Margin="482,416,0,0" VerticalAlignment="Top" Checked="RadioAuto_Checked" IsChecked="True" Unchecked="RadioAuto_Unchecked" ToolTip="Auto detect IP addresses." ToolTipService.ShowDuration="7000"/>
+                    <Button x:Name="ButtonDorU" Content="Download Radar" HorizontalAlignment="Left" Margin="330,439,0,0" VerticalAlignment="Top" Width="222" Height="36" Click="ButtonDorU_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings">
+                <Grid Background="#FFE5E5E5">
+                    <ComboBox x:Name="comboBoxTheme" HorizontalAlignment="Left" Margin="505,34,0,0" VerticalAlignment="Top" Width="106" SelectionChanged="comboBoxTheme_SelectionChanged" ToolTip="Change Launcher Color." ToolTipService.ShowDuration="7000"/>
+                    <Label Content="Theme Color" HorizontalAlignment="Left" Margin="500,8,0,0" VerticalAlignment="Top" Width="106" FontWeight="Bold" FontSize="14" Height="26"/>
+                    <!--<Button x:Name="ButtonSave" Content="Save" HorizontalAlignment="Left" Margin="11,445,0,0" VerticalAlignment="Top" Width="224" Click="ButtonSave_Click" Height="33"/>
+                      
+                    <ListBox x:Name="ListBox1" HorizontalAlignment="Left" Height="430" Margin="10,10,0,0" VerticalAlignment="Top" Width="225"/>-->
+                    <TextBox x:Name="TextBoxJson" HorizontalAlignment="Left" Height="406" Margin="10,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Loaded="TextBoxJson_Loaded" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                    <Button x:Name="ButtonSaveJson" Content="Save radar settings" HorizontalAlignment="Left" Margin="10,445,0,0" VerticalAlignment="Top" Width="270" Height="33" Click="ButtonSaveJson_Click" ToolTip="Save settings.json file." ToolTipService.ShowDuration="7000"/>
+                    <Label Content="Local Version:" HorizontalAlignment="Left" Margin="280,36,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Last Version:" HorizontalAlignment="Left" Margin="280,62,0,0" VerticalAlignment="Top" Height="26" FontWeight="Bold"/>
+                    <Label x:Name="LabelLocalVer" Content="" HorizontalAlignment="Left" Margin="362,36,0,0" VerticalAlignment="Top" Height="24"/>
+                    <Label x:Name="LabelLastVer" Content="" HorizontalAlignment="Left" Margin="362,62,0,0" VerticalAlignment="Top" Height="26"/>
+                    <Label Content="Radar local ver:" HorizontalAlignment="Left" Margin="280,88,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Radar last ver:" HorizontalAlignment="Left" Margin="280,114,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <Label x:Name="RlocVer" Content="" HorizontalAlignment="Left" Margin="364,88,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="RLastVer" Content="" HorizontalAlignment="Left" Margin="370,114,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Radar  Settings" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Width="270" HorizontalContentAlignment="Center" FontSize="14" Height="31" FontWeight="Bold"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Other Cheat">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="CheckBoxAim" Content="Aimbot" HorizontalAlignment="Left" Margin="36,32,0,0" VerticalAlignment="Top" Checked="CheckBoxAim_Checked"/>
+                    <Button Content="Confirm" HorizontalAlignment="Left" Margin="206,426,0,0" VerticalAlignment="Top" Width="208" Height="39" Click="Button_Click_1"/>
+                    <GroupBox Header="Paks" HorizontalAlignment="Left" Height="154" Margin="131,32,0,0" VerticalAlignment="Top" Width="123">
+
+                    </GroupBox>
+                    <CheckBox Content="Black texture" HorizontalAlignment="Left" Margin="142,111,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="No grass" HorizontalAlignment="Left" Margin="142,88,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="Golden players" HorizontalAlignment="Left" Margin="142,134,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBoxNoRecoil" Content="No recoil" HorizontalAlignment="Left" Margin="142,65,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="Red Players" HorizontalAlignment="Left" Margin="142,157,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBoxZoom" Content="Zoom" HorizontalAlignment="Left" Margin="36,55,0,0" VerticalAlignment="Top" Checked="CheckBoxZoom_Checked"/>
+                    <TextBox x:Name="TextBoxPath" HorizontalAlignment="Left" Height="23" Margin="10,395,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="601" Controls:TextBoxHelper.Watermark="Path to 'Paks' folder (Mouse double click on field to find path)" MouseDoubleClick="TextBoxPath_MouseDoubleClick"/>
+                    <!--<Button x:Name="ButtonSave" Content="Save" HorizontalAlignment="Left" Margin="11,445,0,0" VerticalAlignment="Top" Width="224" Click="ButtonSave_Click" Height="33"/>
+                      
+                    <ListBox x:Name="ListBox1" HorizontalAlignment="Left" Height="430" Margin="10,10,0,0" VerticalAlignment="Top" Width="225"/>-->
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <ProgressBar x:Name="progressBar1" HorizontalAlignment="Left" Height="10" Margin="0,523,-4,0" VerticalAlignment="Top" Width="629" ValueChanged="ProgBarDownload_ValueChanged" Background="White" BorderBrush="White"/>
     </Grid>
 </Controls:MetroWindow>
