@@ -202,9 +202,6 @@
     <Resource Include="Launcher_pic.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="VMRadar_pic.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="visual_main.jpg" />
   </ItemGroup>
   <ItemGroup>
