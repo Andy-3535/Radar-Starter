@@ -225,11 +225,11 @@ namespace Radar_Starter
                     string b = s;
                     string path = "\"" + Path.GetDirectoryName(b) + "\\" + Path.GetFileName(b) + "\"";
                     proc.StartInfo.FileName = "java";
-                    proc.StartInfo.Arguments = " -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2 + " 1 1";
+                    proc.StartInfo.Arguments = " -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
                     proc.Start();
                     proc.BeginOutputReadLine();
                     proc.BeginErrorReadLine();
-                    TextBoxCmd.Text += "\njava -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2 + " 1 1";
+                    TextBoxCmd.Text += "\njava -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
                 }
             }
             if (RadioPCAP.IsChecked == true)
@@ -276,11 +276,11 @@ namespace Radar_Starter
                     string path = "\"" + Path.GetDirectoryName(b) + "\\" + Path.GetFileName(b) + "\"";
                     string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
                     proc.StartInfo.FileName = "java";
-                    proc.StartInfo.Arguments = "-jar " + path + " " + SomeText3 + " PortFilter " + SomeText2 + " 1 1";
+                    proc.StartInfo.Arguments = "-jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
                     proc.Start();
                     proc.BeginOutputReadLine();
                     proc.BeginErrorReadLine();
-                    TextBoxCmd.Text += "\njava -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2 + " 1 1";
+                    TextBoxCmd.Text += "\njava -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
                 }
             }
             if (RadioAuto.IsChecked == true)
@@ -299,11 +299,11 @@ namespace Radar_Starter
                     string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
                     string AllIpAdressFilter = Regex.Replace(AllIpAdress, "[^0-9 .]", "");
                     proc.StartInfo.FileName = "java";
-                    proc.StartInfo.Arguments = "-jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " 1 1";
+                    proc.StartInfo.Arguments = "-jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter;
                     proc.Start();
                     proc.BeginOutputReadLine();
                     proc.BeginErrorReadLine();
-                    TextBoxCmd.Text += "\njava -jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " 1 1";
+                    TextBoxCmd.Text += "\njava -jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter;
                 }
             }
         }
