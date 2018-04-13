@@ -1,11 +1,11 @@
 # Radar-Starter !
 
-#### Простой и удобный launcher для https://github.com/Jerry1211/RadarProject (на данный момент поддержка версии Albedo из https://yougame.biz/threads/40333/)
-
+#### A simple and convenient launcher for radar paks and AHK
 ![Imgur](https://image.ibb.co/nb2ozn/2.png)
+![Imgur](https://preview.ibb.co/nQdTzn/3.png)
+![Imgur](https://image.ibb.co/mmvYbc/image.png)
 
-
-#### ФУНКЦИИ:
+#### Functions:
 * Auto Download last radar build
 * Auto update Launcher
 * Load Radar settings.json
@@ -17,17 +17,20 @@
 * Check WinPcap download and install
 * Change theme
 * Minimaze to tray
+* Add pak`s
+* Add AHK scripts
+* Add Zoom
 
-#### Запуск launcher:
-* Запуcтите VPN согласно мануалу с git
-* Запустите Launcher
-* Выберете ip адрес компьютера с которого запускаете (RADAR PC IP)
-* Выберете ip адрес компьютера на котором запущена игра (ip который присвоил VPN для вашего игрового компьютера)
-* Так-же данный launcher может решить вашу проблему с неработоспособностью радара при условии подключенного VPN
+#### Start launcher:
+* Start VPN
+* Start Launcher
+* Select IP (RADAR PC IP)
+* Select VPN IP (GAME PC IP)
 
-#### Запуск arpspoof (если у вас подключение через wi-fi):
-* Запускаем Launcher
-* Выставляем галочку на против Arp Wi-fi
-* В поле RADAR PC IP: вводим IP компьютера на котором radar
-* В поле GAME PC IP: вводим IP компьютера на котором игра
-* Нажимаем START RADAR
+#### Start arpspoof (For those who have a second PC via wi-fi):
+* Start Launcher
+* Select Arp Wi-fi
+* Enter radar pc ip
+* Enter game pc ip
+* Select radar andt press start
+
