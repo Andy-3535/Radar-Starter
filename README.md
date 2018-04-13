@@ -34,3 +34,14 @@
 * Enter game pc ip
 * Select radar andt press start
 
+#### Start Paks:
+* Open Other Cheat
+* Select path to PUBG folder
+* Select pak
+* Inject pak
+* When you finish play PUBG, press clear PUBG
+
+#### Start AHK scrips:
+* Open Other Cheat
+* Select path to AHK script
+* Press START AHK
