@@ -17,6 +17,8 @@ using System.Collections.Generic;
 using Microsoft.Win32;
 using ApplicationUpdate;
 using AutoHotkey.Interop;
+using System.Threading;
+using Ionic.Zip;
 
 namespace Radar_Starter
 {
@@ -32,34 +34,40 @@ namespace Radar_Starter
         public static string SomeText3;
         ViewModel viewModel = new ViewModel();
         public static string TextVer;
+        public static string PakURL;
+        List<string> PathToJar = new List<string>();
+        string PathToPak1 = Path.GetTempPath() + "/TslGame-WindowsNoEditor_ui1.pak";
 
         public MainWindow()
         {
-            InitializeComponent();
-            CompareLauncherVersions();
-            TextBoxCmd.Text += "------------------------------- Launcher Made by Lafko from https://lafkomods.ru/ -------------------------------";
-            ChangeAppStyle();
-            DataContext = viewModel;
-            TextBoxRadarPCIP.Text = Radar_Launcher.Properties.Settings.Default.TextBoxRadarPCIP;
-            TextBoxGamePCIP.Text = Radar_Launcher.Properties.Settings.Default.TextBoxGamePCIP;
-            comboBoxTheme.SelectedItem = Radar_Launcher.Properties.Settings.Default.Color;
-            FindJavaVersion();
-            FindWinPcap();
-            MyNotifyIcon = new NotifyIcon();
-            MyNotifyIcon.Icon = new Icon(Radar_Launcher.Properties.Resources.Launcher_icon, 40, 40);
-            MyNotifyIcon.MouseDoubleClick += new MouseEventHandler(MyNotifyIcon_MouseDoubleClick);
-            GetLocalIp();
-            GetAllLocalIp();
-            RadarCheck();
+            try
+            {
+                InitializeComponent();
+                CompareLauncherVersions();
+                TextBoxCmd.Text += "------------------------------- Launcher Made by Lafko from https://lafkomods.ru/ -------------------------------";
+                ChangeAppStyle();
+                DataContext = viewModel;
+                TextBoxRadarPCIP.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxRadarPCIP;
+                TextBoxGamePCIP.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxGamePCIP;
+                comboBoxTheme.SelectedItem = Launcher_Namespace.Properties.Settings.Default.Color;
+                TextBoxPak.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxPakPath;
+                TextBoxAhk.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxAhkPath;
+                FindJavaVersion();
+                FindWinPcap();
+                MyNotifyIcon = new NotifyIcon();
+                MyNotifyIcon.Icon = new Icon(Launcher_Namespace.Properties.Resources.Launcher_icon, 40, 40);
+                MyNotifyIcon.MouseDoubleClick += new MouseEventHandler(MyNotifyIcon_MouseDoubleClick);
+                RadarCheck();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Launcher error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void RadarCheck()
         {
             var v = Directory.GetFiles(Environment.CurrentDirectory, "*.jar", SearchOption.AllDirectories);
-            if (v.Length > 1)
-            {
-                TextBoxCmd.Text += "\nWARNING YOU HAVE 2 JAR FILES IN FOLDER!!! Delete one!";
-            }
             if (v.Length == 0)
             {
                 TextBoxCmd.Text += "\nRadar File nod found.";
@@ -70,9 +78,11 @@ namespace Radar_Starter
                 {
                     TextBoxCmd.Text += "\nRadar file fund in: " + s;
                     ButtonDorU.IsEnabled = false;
-                    ButtonDorU.Content = "Update Radar";
+                    ButtonDorU.Content = "UPDATE RADAR";
                 }
             }
+            GetAllJarFiles();
+            ComboBoxRadar.SelectedIndex = Launcher_Namespace.Properties.Settings.Default.ComboBoxIndex;
             string localVersion = Versions.LocalVersion(Environment.CurrentDirectory + "/radar.version");
             string remoteVersion = Versions.RemoteVersion("http://j25940kk.beget.tech/pubg/RADAR/" + "radar.version");
             RlocVer.Content = localVersion;
@@ -97,6 +107,13 @@ namespace Radar_Starter
             {
                 get { return _badgeValue2; }
                 set { _badgeValue2 = value; NotifyPropertyChanged(); }
+            }
+
+            private string _badgeValue3;
+            public string BadgeValue3
+            {
+                get { return _badgeValue3; }
+                set { _badgeValue3 = value; NotifyPropertyChanged(); }
             }
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -127,12 +144,7 @@ namespace Radar_Starter
                 if (result == MessageBoxResult.Yes)
                 {
                     Process.Start("http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html");
-                    Environment.Exit(0);
                 }
-                else
-                {
-                    Environment.Exit(0);
-                } 
             }
         }
 
@@ -159,10 +171,6 @@ namespace Radar_Starter
                     {
                         TextBoxCmd.Text += "Download Error " + ex.Message;
                     }
-                }
-                else
-                {
-                    Environment.Exit(0);
                 }
             }
         }
@@ -200,111 +208,75 @@ namespace Radar_Starter
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Process proc = new Process();
-            proc.StartInfo.CreateNoWindow = true;
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.RedirectStandardOutput = true;
-            proc.StartInfo.RedirectStandardError = true;
-            proc.OutputDataReceived += proc_OutputDataReceived;
-            proc.ErrorDataReceived += proc_OutputDataReceived;
-            if (RadioCustomIp.IsChecked == true)
+            try
             {
-                SomeText2 = TextBoxGamePCIP.Text;
-                SomeText3 = TextBoxRadarPCIP.Text;
-                Radar_Launcher.Properties.Settings.Default.TextBoxRadarPCIP = TextBoxRadarPCIP.Text;
-                Radar_Launcher.Properties.Settings.Default.TextBoxGamePCIP = TextBoxGamePCIP.Text;
-                Radar_Launcher.Properties.Settings.Default.Save();
-                var v = Directory.GetFiles(Environment.CurrentDirectory, "*.jar", SearchOption.AllDirectories);
-                if (v.Length == 0)
+                Process proc = new Process();
+                proc.StartInfo.CreateNoWindow = true;
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.StartInfo.RedirectStandardError = true;
+                proc.OutputDataReceived += proc_OutputDataReceived;
+                proc.ErrorDataReceived += proc_OutputDataReceived;
+                if (RadioCustomIp.IsChecked == true)
                 {
-                    TextBoxCmd.Text += "\nNo Radar jar file!\nStarting download radar file...";
-                    CompareRadarVersions();
-                }
-                foreach (var s in v)
-                {
-                    string b = s;
-                    string path = "\"" + Path.GetDirectoryName(b) + "\\" + Path.GetFileName(b) + "\"";
+                    SomeText2 = TextBoxGamePCIP.Text;
+                    SomeText3 = TextBoxRadarPCIP.Text;
+                    Launcher_Namespace.Properties.Settings.Default.TextBoxRadarPCIP = TextBoxRadarPCIP.Text;
+                    Launcher_Namespace.Properties.Settings.Default.TextBoxGamePCIP = TextBoxGamePCIP.Text;
+                    Launcher_Namespace.Properties.Settings.Default.Save();
+
                     proc.StartInfo.FileName = "java";
-                    proc.StartInfo.Arguments = " -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
+                    proc.StartInfo.Arguments = " -jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + SomeText3 + " PortFilter " + SomeText2;
                     proc.Start();
                     proc.BeginOutputReadLine();
                     proc.BeginErrorReadLine();
-                    TextBoxCmd.Text += "\njava -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
+                    TextBoxCmd.Text += "\njava -jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + SomeText3 + " PortFilter " + SomeText2;
                 }
-            }
-            if (RadioPCAP.IsChecked == true)
-            {
-                var f = Directory.GetFiles(Environment.CurrentDirectory, "*.jar", SearchOption.AllDirectories);
-                if (f.Length == 0)
+                if (RadioPCAP.IsChecked == true)
                 {
-                    TextBoxCmd.Text += "\nNo Radar jar file!\nStarting download radar file...";
-                    CompareRadarVersions();
-                }
-                foreach (var s in f)
-                {
-                    TextBoxCmd.Text += "\nLaunching the radar... \nThis is Offline mod.";
-                    string a = s;
-                    string path = "\"" + Path.GetDirectoryName(a) + "\\" + Path.GetFileName(a) + "\"";
                     string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
                     string AllIpAdressFilter = Regex.Replace(AllIpAdress, "[^0-9 .]", "");
                     proc.StartInfo.FileName = "java";
-                    proc.StartInfo.Arguments = "-jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " Offline";
+                    proc.StartInfo.Arguments = "-jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " Offline";
                     proc.Start();
                     proc.BeginOutputReadLine();
                     proc.BeginErrorReadLine();
-                    TextBoxCmd.Text += "\njava -jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " Offline";
+                    TextBoxCmd.Text += "\njava -jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " Offline";
                 }
-            }
-            if (RadioArp.IsChecked == true)
-            {
-                SomeText2 = TextBoxGamePCIP.Text;
-                SomeText3 = TextBoxRadarPCIP.Text;
-                Radar_Launcher.Properties.Settings.Default.TextBoxRadarPCIP = TextBoxRadarPCIP.Text;
-                Radar_Launcher.Properties.Settings.Default.TextBoxGamePCIP = TextBoxGamePCIP.Text;
-                Radar_Launcher.Properties.Settings.Default.Save();
-                Process.Start("arpspoof.exe", SomeText2);
-                System.Threading.Thread.Sleep(1000);
-                var v = Directory.GetFiles(Environment.CurrentDirectory, "*.jar", SearchOption.AllDirectories);
-                if (v.Length == 0)
+
+                if (RadioArp.IsChecked == true)
                 {
-                    TextBoxCmd.Text += "\nNo Radar jar file!\nStarting download radar file...";
-                    CompareRadarVersions();
-                }
-                foreach (var s in v)
-                {
-                    string b = s;
-                    string path = "\"" + Path.GetDirectoryName(b) + "\\" + Path.GetFileName(b) + "\"";
-                    string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
+                    SomeText2 = TextBoxGamePCIP.Text;
+                    SomeText3 = TextBoxRadarPCIP.Text;
+                    Launcher_Namespace.Properties.Settings.Default.TextBoxRadarPCIP = TextBoxRadarPCIP.Text;
+                    Launcher_Namespace.Properties.Settings.Default.TextBoxGamePCIP = TextBoxGamePCIP.Text;
+                    Launcher_Namespace.Properties.Settings.Default.Save();
+                    TextBoxCmd.Text += "\n" + SomeText3;
+                    Process.Start("arpspoof.exe", SomeText2);
+                    Thread.Sleep(2000);
+
                     proc.StartInfo.FileName = "java";
-                    proc.StartInfo.Arguments = "-jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
+                    proc.StartInfo.Arguments = "-jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + SomeText3 + " PortFilter " + SomeText2;
                     proc.Start();
                     proc.BeginOutputReadLine();
                     proc.BeginErrorReadLine();
-                    TextBoxCmd.Text += "\njava -jar " + path + " " + SomeText3 + " PortFilter " + SomeText2;
+                    TextBoxCmd.Text += "\njava -jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + SomeText3 + " PortFilter " + SomeText2;
                 }
-            }
-            if (RadioAuto.IsChecked == true)
-            {
-                var f = Directory.GetFiles(Environment.CurrentDirectory, "*.jar", SearchOption.AllDirectories);
-                if (f.Length == 0)
+                if (RadioAuto.IsChecked == true)
                 {
-                    TextBoxCmd.Text += "\nNo Radar jar file!\nStarting download radar file...";
-                    CompareRadarVersions();
-                }
-                foreach (var s in f)
-                {
-                    TextBoxCmd.Text += "\nLaunching the radar... \nThis is Online mod.";
-                    string a = s;
-                    string path = "\"" + Path.GetDirectoryName(a) + "\\" + Path.GetFileName(a) + "\"";
                     string LocalIpAdressFilter = Regex.Replace(LocalIpAdress, "[^0-9 .]", "");
                     string AllIpAdressFilter = Regex.Replace(AllIpAdress, "[^0-9 .]", "");
                     proc.StartInfo.FileName = "java";
-                    proc.StartInfo.Arguments = "-jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter;
+                    proc.StartInfo.Arguments = "-jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter;
                     proc.Start();
                     proc.BeginOutputReadLine();
                     proc.BeginErrorReadLine();
-                    TextBoxCmd.Text += "\njava -jar " + path + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter;
+                    TextBoxCmd.Text += "\njava -jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter;
                 }
+            }
+            catch (Exception ex)
+            {
+                TextBoxCmd.Text += "\nError: " + ex.Message;
             }
         }
 
@@ -383,6 +355,12 @@ namespace Radar_Starter
 
         private void RadioAuto_Checked(object sender, RoutedEventArgs e)
         {
+            comboBoxLanInternet.Items.Clear();
+            comboBoxLanInternet2.Items.Clear();
+            GetLocalIp();
+            GetAllLocalIp();
+            comboBoxLanInternet.SelectedIndex = 0;
+            comboBoxLanInternet2.SelectedIndex = 0;
             comboBoxLanInternet.Visibility = Visibility.Visible;
             comboBoxLanInternet2.Visibility = Visibility.Visible;
             Badge1.Visibility = Visibility.Visible;
@@ -399,6 +377,12 @@ namespace Radar_Starter
 
         private void RadioPCAP_Checked(object sender, RoutedEventArgs e)
         {
+            comboBoxLanInternet.Items.Clear();
+            comboBoxLanInternet2.Items.Clear();
+            GetLocalIp();
+            GetAllLocalIp();
+            comboBoxLanInternet.SelectedIndex = 0;
+            comboBoxLanInternet2.SelectedIndex = 0;
             comboBoxLanInternet.Visibility = Visibility.Visible;
             comboBoxLanInternet2.Visibility = Visibility.Visible;
             Badge1.Visibility = Visibility.Visible;
@@ -471,7 +455,6 @@ namespace Radar_Starter
             themes.Add("Mauve");
             themes.Add("Taupe");
             themes.Add("Sienna");
- 
             foreach (string theme in themes)
             {
                 comboBoxTheme.Items.Add(theme);
@@ -481,13 +464,18 @@ namespace Radar_Starter
         private void comboBoxTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent((string)comboBoxTheme.SelectedItem), ThemeManager.GetAppTheme("BaseLight"));
-            Radar_Launcher.Properties.Settings.Default.Color = (string)comboBoxTheme.SelectedItem;
-            Radar_Launcher.Properties.Settings.Default.Save();
+            Launcher_Namespace.Properties.Settings.Default.Color = (string)comboBoxTheme.SelectedItem;
+            Launcher_Namespace.Properties.Settings.Default.Save();
         }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
         {
-            Radar_Launcher.Properties.Settings.Default.Save();
+            Launcher_Namespace.Properties.Settings.Default.TextBoxPakPath = TextBoxPak.Text;
+            Launcher_Namespace.Properties.Settings.Default.TextBoxAhkPath = TextBoxAhk.Text;
+            Launcher_Namespace.Properties.Settings.Default.TextBoxRadarPCIP = TextBoxRadarPCIP.Text;
+            Launcher_Namespace.Properties.Settings.Default.TextBoxGamePCIP = TextBoxGamePCIP.Text;
+            Launcher_Namespace.Properties.Settings.Default.ComboBoxIndex = ComboBoxRadar.SelectedIndex;
+            Launcher_Namespace.Properties.Settings.Default.Save();
         }
 
         private void MetroWindow_StateChanged_1(object sender, EventArgs e)
@@ -495,7 +483,7 @@ namespace Radar_Starter
             if (this.WindowState == WindowState.Minimized)
             {
                 MyNotifyIcon.BalloonTipTitle = "Minimize Sucessful";
-                MyNotifyIcon.BalloonTipText = "Minimized the app VMRadar Launcher";
+                MyNotifyIcon.BalloonTipText = "Minimized the app Launcher";
                 this.ShowInTaskbar = false;
                 MyNotifyIcon.Visible = true;
             }
@@ -531,7 +519,6 @@ namespace Radar_Starter
                         {
                             return true;
                         }
-
                     }
                 }
             }
@@ -542,41 +529,7 @@ namespace Radar_Starter
         {
             return Regex.IsMatch(inputString, strToSearch);
         }
-        //Removed before problem solved
-        /*
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
-        {
-             string PathToFile = Environment.CurrentDirectory + "/settings.json";
-             string text = File.ReadAllText(PathToFile);
-             for (int i = 1; i <= 112; i++)
-             {
-                 text = text.Replace("\"" + sup2[i - 1] +  "\": " + Radar_Launcher.SettingsRad.getBetween(text, "\"" + sup2[i - 1] + "\": ", ",") + ",", "\"" + sup2[i - 1] + "\": " + textboxes[i - 1].Text + ",");
-                 File.WriteAllText(PathToFile, text);
-             }
-        }
-
-        List<System.Windows.Controls.TextBox> textboxes = new List<System.Windows.Controls.TextBox>();
-        List<String> sup2 = new List<String>();
         
-        private void TabItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(Environment.CurrentDirectory + "/settings.json"))
-            {
-                var jsonFile = File.ReadAllLines(Environment.CurrentDirectory + "/settings.json");
-                List<String> sup = new List<String>();
-                for (int i = 1; i <= 112; i++)
-                {
-                    sup.Add(Radar_Launcher.SettingsRad.getBetween(jsonFile[i], "\": ", ","));
-                    sup2.Add(Radar_Launcher.SettingsRad.getBetween(jsonFile[i], "\"", "\": "));
-                    System.Windows.Controls.TextBox newTexBox = new System.Windows.Controls.TextBox();
-                    textboxes.Add(newTexBox);
-                    var title = ListBox1.Items.Add(sup2[i - 1] + ":");
-                    ListBox1.Items.Add(newTexBox);
-                    newTexBox.Text = sup[i - 1];
-                }
-            }
-        }
-        */
         private void TextBoxJson_Loaded(object sender, RoutedEventArgs e)
         {
             if (File.Exists(Environment.CurrentDirectory + "/settings.json"))
@@ -593,7 +546,7 @@ namespace Radar_Starter
             {
                 using (FileStream fs = File.Create(Environment.CurrentDirectory + "/settings.json"))
                 {
-                    Byte[] info = Radar_Launcher.Properties.Resources.settings;
+                    Byte[] info = Launcher_Namespace.Properties.Resources.settings;
                     fs.Write(info, 0, info.Length);
                 }
                 TextBoxJson.Text = File.ReadAllText(Environment.CurrentDirectory + "/settings.json");
@@ -638,14 +591,15 @@ namespace Radar_Starter
                 {
                     if (TextVer == "app.version")
                     {
-                        if (File.Exists(Environment.CurrentDirectory + "/Radar Launcher.bak"))
+                        if (File.Exists(Environment.CurrentDirectory + "/Launcher.bak"))
                         {
-                            File.Delete(Environment.CurrentDirectory + "/Radar Launcher.bak");
+                            File.Delete(Environment.CurrentDirectory + "/Launcher.bak");
                         }
-                        File.Move(AppDomain.CurrentDomain.FriendlyName, "Radar Launcher.bak");
+                        File.Move(AppDomain.CurrentDomain.FriendlyName, "Launcher.bak");
+                        Thread.Sleep(5000);
                         zip.ExtractAll(downloadToPath, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
                         
-                        MessageBoxResult result = System.Windows.MessageBox.Show("Launcher updated, restart app!", "MessageBoxResult", MessageBoxButton.OK, MessageBoxImage.Question);
+                        MessageBoxResult result = System.Windows.MessageBox.Show("Launcher updated, restart app!", "Congratulations", MessageBoxButton.OK, MessageBoxImage.Question);
                         if (result == MessageBoxResult.OK)
                         {
                             Process proc = Process.Start(downloadToPath + "\\" + executeTarget);
@@ -742,47 +696,38 @@ namespace Radar_Starter
             CompareRadarVersions();
         }
 
-        private void CheckBoxAim_Checked(object sender, RoutedEventArgs e)
-        {
-            System.Windows.MessageBox.Show("F1 pause script\nF2 stop script\nLeft Mouse aim", "Hot keys", MessageBoxButton.OK, MessageBoxImage.None);
-        }
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Paks();
-            if (CheckBoxAim.IsChecked == true)
+            try
             {
-                Process[] p = Process.GetProcessesByName("TslGame");
-                if (p.Length == 0)
+                using (WebClient wc = new WebClient())
                 {
-                    MessageBoxResult result = System.Windows.MessageBox.Show("If you use aimbot start PUBG before start cheat", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    if (result == MessageBoxResult.OK)
-                    {
-                        CheckBoxAim.IsChecked = false;
-                    }
+                    wc.DownloadFileCompleted += wc_DownloadFileCompleted3;
+                    wc.DownloadFileAsync(new Uri(PakURL), PathToPak1);
                 }
-                else
-                {
-                    var ahk = AutoHotkeyEngine.Instance;
-                    foreach (var proc in p)
-                    {
-                        var PidId = Convert.ToString(proc.Id);
-                        string ahkPidCommand = "#NoEnv\n#SingleInstance, Force\n#Persistent\n#InstallKeybdHook\n#UseHook\n#KeyHistory, 0\n#HotKeyInterval 1\n#MaxHotkeysPerInterval 127\nPID := DllCall(\"" + PidId + "\")\nProcess, Priority, %PID%, High";
-                        ahk.ExecRaw(ahkPidCommand);
-                        if (File.Exists(Path.GetTempPath() + "/aim.ahk"))
-                        {
-                            ahk.LoadFile(Path.GetTempPath() + "/aim.ahk");
-                        }
-                        else
-                        {
-                            MessageBoxResult result = System.Windows.MessageBox.Show("Restart Launcher!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            if (result == MessageBoxResult.OK)
-                            {
-                                Environment.Exit(0);
-                            }
-                        }
-                    }
-                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            ButtonInject.Visibility = Visibility.Hidden;
+            ButtonPakClear.Visibility = Visibility.Visible;
+        }
+
+        private void wc_DownloadFileCompleted3(object sender, AsyncCompletedEventArgs e)
+        {
+            try
+            {
+                File.Move(TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_erangel_lod.pak", Path.GetTempPath() + "/TslGame-WindowsNoEditor_erangel_lod_orig.pak");
+                Thread.Sleep(100);
+                File.Move(TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_ui.pak", TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_erangel_lod.pak");
+                Thread.Sleep(100);
+                File.Copy(PathToPak1, TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_ui.pak");
+                System.Windows.MessageBox.Show("Pak injected, now you can run PUBG", "Congratulations", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -791,26 +736,138 @@ namespace Radar_Starter
             new Radar_Launcher.Form1();
         }
 
-        private void Paks()
-        {
-           
-
-            if (CheckBoxNoRecoil.IsChecked == true)
-            {
-                string path = @"";
-                string path2 = TextBoxPath.Text;
-                File.Move(path, path2);
-                //File.SetAttributes(path2, FileAttributes.System | FileAttributes.Hidden);
-            }
-        }
-
         private void TextBoxPath_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var dialog = new FolderBrowserDialog();
             DialogResult result = dialog.ShowDialog();
-            TextBoxPath.Text = dialog.SelectedPath;
+            TextBoxPak.Text = dialog.SelectedPath;
         }
 
-       
+        private void TextBoxAhk_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".ahk";
+            dlg.Filter = "ahk Files (*.ahk)|*.ahk|txt Files (*.txt)|*.txt";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                TextBoxAhk.Text = filename;
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var ahk = AutoHotkeyEngine.Instance;
+                if (File.Exists(TextBoxAhk.Text))
+                {
+                    ahk.LoadFile(TextBoxAhk.Text);
+                }
+                else
+                {
+                   System.Windows.MessageBox.Show("Select ahk file", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }    
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            Process[] processesByName = Process.GetProcessesByName("TslGame");
+            for (int i = 0; i < processesByName.Length; i++)
+            {
+                processesByName[i].Kill();
+            }
+            processesByName = Process.GetProcessesByName("BattlEye Launcher");
+            for (int i = 0; i < processesByName.Length; i++)
+            {
+                processesByName[i].Kill();
+            }
+            processesByName = Process.GetProcessesByName("BEService.exe");
+            for (int i = 0; i < processesByName.Length; i++)
+            {
+                processesByName[i].Kill();
+            }
+            processesByName = Process.GetProcessesByName("BroCrashReporter");
+            for (int i = 0; i < processesByName.Length; i++)
+            {
+                processesByName[i].Kill();
+            }
+            try
+            {
+                File.Delete(TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_ui.pak");
+                File.Move(TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_erangel_lod.pak", TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_ui.pak");
+                Thread.Sleep(100);
+                File.Move(Path.GetTempPath() + "/TslGame-WindowsNoEditor_erangel_lod_orig.pak", TextBoxPak.Text + "/TslGame/Content/Paks/TslGame-WindowsNoEditor_erangel_lod.pak");
+                System.Windows.MessageBox.Show("Inject deleted, Just in case, check the game files.", "Congratulations", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            ButtonPakClear.Visibility = Visibility.Hidden;
+            ButtonInject.Visibility = Visibility.Visible;
+        }
+
+        private void RadiButtonPak1_Checked(object sender, RoutedEventArgs e)
+        {
+           PakURL = "http://j25940kk.beget.tech/pubg/pak/TslGame-WindowsNoEditor_ui1.pak";
+        }
+
+        private void RadioButtonPak2_Checked(object sender, RoutedEventArgs e)
+        {
+            PakURL = "http://j25940kk.beget.tech/pubg/pak/TslGame-WindowsNoEditor_ui2.pak";
+        }
+
+        private void RadioButtonPak3_Checked(object sender, RoutedEventArgs e)
+        {
+            PakURL = "http://j25940kk.beget.tech/pubg/pak/TslGame-WindowsNoEditor_ui3.pak";
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            PakURL = "http://j25940kk.beget.tech/pubg/pak/TslGame-WindowsNoEditor_ui4.pak";
+        }
+
+        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
+        {
+            PakURL = "http://j25940kk.beget.tech/pubg/pak/TslGame-WindowsNoEditor_ui5.pak";
+        }
+
+        private void GetAllJarFiles()
+        {
+            var v = Directory.GetFiles(Environment.CurrentDirectory, "*.jar", SearchOption.AllDirectories);
+            foreach (var b in v)
+            {
+                PathToJar.Add("\"" + Path.GetDirectoryName(b) + "\\" + Path.GetFileName(b) + "\"");
+                ComboBoxRadar.Items.Add(Path.GetFileName(b));
+                viewModel.BadgeValue3 = Convert.ToString(ComboBoxRadar.Items.Count);
+            }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            //No need
+            /*try
+            {
+                var path = Regex.Replace(PathToJar[ComboBoxRadar.SelectedIndex], "\"", "");
+                TextBoxAhk.Text = path;
+                using (ZipFile zip = ZipFile.Read(path))
+                {
+                    zip.UpdateFile("GameKt.class", @"\albedo");
+                    zip.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Inject error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }*/
+        }
     }
 }

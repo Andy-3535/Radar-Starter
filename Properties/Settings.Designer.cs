@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Radar_Launcher.Properties {
+namespace Launcher_Namespace.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -56,6 +56,42 @@ namespace Radar_Launcher.Properties {
             }
             set {
                 this["Color"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TextBoxPakPath {
+            get {
+                return ((string)(this["TextBoxPakPath"]));
+            }
+            set {
+                this["TextBoxPakPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TextBoxAhkPath {
+            get {
+                return ((string)(this["TextBoxAhkPath"]));
+            }
+            set {
+                this["TextBoxAhkPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ComboBoxIndex {
+            get {
+                return ((int)(this["ComboBoxIndex"]));
+            }
+            set {
+                this["ComboBoxIndex"] = value;
             }
         }
     }

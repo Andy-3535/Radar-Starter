@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Radar_Launcher.Properties {
+namespace Launcher_Namespace.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Radar_Launcher.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Radar_Launcher.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Launcher_Namespace.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,16 +63,6 @@ namespace Radar_Launcher.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
-        public static byte[] aim {
-            get {
-                object obj = ResourceManager.GetObject("aim", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
         public static byte[] app {
             get {
                 object obj = ResourceManager.GetObject("app", resourceCulture);
@@ -83,49 +73,9 @@ namespace Radar_Launcher.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
-        public static byte[] ApplicationUpdate {
-            get {
-                object obj = ResourceManager.GetObject("ApplicationUpdate", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
         public static byte[] arpspoof {
             get {
                 object obj = ResourceManager.GetObject("arpspoof", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        public static byte[] AutoHotkey_Interop {
-            get {
-                object obj = ResourceManager.GetObject("AutoHotkey_Interop", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        public static byte[] ControlzEx {
-            get {
-                object obj = ResourceManager.GetObject("ControlzEx", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        public static byte[] Ionic_Zip {
-            get {
-                object obj = ResourceManager.GetObject("Ionic_Zip", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -156,16 +106,6 @@ namespace Radar_Launcher.Properties {
         public static byte[] settings {
             get {
                 object obj = ResourceManager.GetObject("settings", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
-        public static byte[] System_Windows_Interactivity {
-            get {
-                object obj = ResourceManager.GetObject("System_Windows_Interactivity", resourceCulture);
                 return ((byte[])(obj));
             }
         }
