@@ -21,3 +21,5 @@ C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Launcher.csp
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Launcher.csproj.CopyComplete
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Launcher.exe
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Release\Launcher.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\RedCell.Diagnostics.Update.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Release\RedCell.Net.dll

@@ -44,10 +44,6 @@
                     <Label Content="Theme Color" HorizontalAlignment="Left" Margin="500,8,0,0" VerticalAlignment="Top" Width="106" FontWeight="Bold" FontSize="14" Height="26"/>
                     <TextBox x:Name="TextBoxJson" HorizontalAlignment="Left" Height="406" Margin="10,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Loaded="TextBoxJson_Loaded" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                     <Button x:Name="ButtonSaveJson" Content="Save radar settings" HorizontalAlignment="Left" Margin="10,445,0,0" VerticalAlignment="Top" Width="270" Height="33" Click="ButtonSaveJson_Click" ToolTip="Save settings.json file." ToolTipService.ShowDuration="7000"/>
-                    <Label Content="Local Version:" HorizontalAlignment="Left" Margin="280,36,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Last Version:" HorizontalAlignment="Left" Margin="280,62,0,0" VerticalAlignment="Top" Height="26" FontWeight="Bold"/>
-                    <Label x:Name="LabelLocalVer" Content="" HorizontalAlignment="Left" Margin="362,36,0,0" VerticalAlignment="Top" Height="24"/>
-                    <Label x:Name="LabelLastVer" Content="" HorizontalAlignment="Left" Margin="362,62,0,0" VerticalAlignment="Top" Height="26"/>
                     <Label Content="Radar local ver:" HorizontalAlignment="Left" Margin="280,88,0,0" VerticalAlignment="Top"/>
                     <Label Content="Radar last ver:" HorizontalAlignment="Left" Margin="280,114,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                     <Label x:Name="RlocVer" Content="" HorizontalAlignment="Left" Margin="364,88,0,0" VerticalAlignment="Top"/>

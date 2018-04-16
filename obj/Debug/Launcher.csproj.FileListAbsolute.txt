@@ -20,3 +20,6 @@ C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Launcher.cspro
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Launcher.csproj.CopyComplete
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Launcher.exe
 C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Launcher.pdb
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Debug\RedCell.Diagnostics.Update.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\bin\Debug\RedCell.Net.dll
+C:\Users\Bylaf\source\repos\Radar Starter\Radar Starter\obj\Debug\Launcher.csprojResolveAssemblyReference.cache

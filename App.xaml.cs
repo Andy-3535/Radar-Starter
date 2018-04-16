@@ -18,10 +18,10 @@ namespace Radar_Starter
         {
             AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
             dllFilesPath.Add(Environment.CurrentDirectory + "/arpspoof.exe");
-            dllFilesPath.Add(Environment.CurrentDirectory + "/app.version");
+            dllFilesPath.Add(Environment.CurrentDirectory + "/update.xml");
             dllFilesPath.Add(Environment.CurrentDirectory + "/MahApps.Metro.dll");
             dllFilesBytes.Add(Launcher_Namespace.Properties.Resources.arpspoof);
-            dllFilesBytes.Add(Launcher_Namespace.Properties.Resources.app);
+            dllFilesBytes.Add(Launcher_Namespace.Properties.Resources.update);
             dllFilesBytes.Add(Launcher_Namespace.Properties.Resources.MahApps_Metro);
             int n = 0;
             while (n <= 2)

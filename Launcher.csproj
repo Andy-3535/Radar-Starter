@@ -79,6 +79,12 @@
     <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="RedCell.Diagnostics.Update">
+      <HintPath>Resources\RedCell.Diagnostics.Update.dll</HintPath>
+    </Reference>
+    <Reference Include="RedCell.Net">
+      <HintPath>Resources\RedCell.Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -175,7 +181,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\app.version" />
     <None Include="Resources\arpspoof.exe" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +210,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Launcher_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\RedCell.Diagnostics.Update.dll" />
+    <EmbeddedResource Include="Resources\RedCell.Net.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\update.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -18,6 +18,8 @@ using Microsoft.Win32;
 using ApplicationUpdate;
 using AutoHotkey.Interop;
 using System.Threading;
+using RedCell.Diagnostics.Update;
+using System.Text;
 
 namespace Radar_Starter
 {
@@ -26,6 +28,7 @@ namespace Radar_Starter
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        TextBoxOutputter outputter;
         private NotifyIcon MyNotifyIcon;
         public static string LocalIpAdress;
         public static string AllIpAdress;
@@ -42,7 +45,7 @@ namespace Radar_Starter
             try
             {
                 InitializeComponent();
-                CompareLauncherVersions();
+                LauncherCheckVer2();
                 TextBoxCmd.Text += "------------------------------- Launcher Made by Lafko from https://lafkomods.ru/ -------------------------------";
                 ChangeAppStyle();
                 DataContext = viewModel;
@@ -61,6 +64,56 @@ namespace Radar_Starter
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Launcher error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void LauncherCheckVer2()
+        {
+            try
+            {
+                var updater = new Updater();
+                updater.StartMonitoring();
+                // Log activity to the console.
+                Log.Console = true;
+
+                // Log activity to the System.Diagnostics.Debug facilty.
+                Log.Debug = true;
+
+                // Prefix messages to the above.
+                Log.Prefix = "[Update] "; // This is the default.
+
+                outputter = new TextBoxOutputter(TextBoxCmd);
+
+                // Send activity messages to the UI.
+                Log.Event += (sender, e) => outputter.Write("\n" + e.Message);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Update error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        public class TextBoxOutputter : TextWriter
+        {
+            System.Windows.Controls.TextBox textBox = null;
+
+            public TextBoxOutputter(System.Windows.Controls.TextBox output)
+            {
+                textBox = output;
+            }
+
+            public override void Write(char value)
+            {
+                base.Write(value);
+                textBox.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    textBox.AppendText(value.ToString());
+                }));
+            }
+
+            public override Encoding Encoding
+            {
+                get { return System.Text.Encoding.UTF8; }
             }
         }
 
@@ -83,7 +136,7 @@ namespace Radar_Starter
             GetAllJarFiles();
             ComboBoxRadar.SelectedIndex = Launcher_Namespace.Properties.Settings.Default.ComboBoxIndex;
             string localVersion = Versions.LocalVersion(Environment.CurrentDirectory + "/radar.version");
-            string remoteVersion = Versions.RemoteVersion("http://j25940kk.beget.tech/pubg/RADAR/" + "radar.version");
+            string remoteVersion = Versions.RemoteVersion("https://lafkomods.ru/update/radar/" + "radar.version");
             RlocVer.Content = localVersion;
             RLastVer.Content = remoteVersion;
             if (localVersion != remoteVersion)
@@ -628,7 +681,7 @@ namespace Radar_Starter
                 System.Windows.MessageBox.Show("Problem with download. File does not exist.");
             }
         }
-
+        
         void wb_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
@@ -645,23 +698,6 @@ namespace Radar_Starter
             if (localVersion != remoteVersion)
             {
                 Button1.IsEnabled = false;
-                BeginDownload(remoteFile, downloadToPath, remoteVersion, "update.txt");
-            }
-        }
-
-        private void CompareLauncherVersions()
-        {
-            TextVer = "app.version";
-            string downloadToPath = Environment.CurrentDirectory;
-            string localVersion = Versions.LocalVersion(downloadToPath + "/app.version");
-            string remoteURL = "http://j25940kk.beget.tech/pubg/launcher/";
-            string remoteVersion = Versions.RemoteVersion(remoteURL + "app.version");
-            string remoteFile = remoteURL + remoteVersion + ".zip";
-
-            LabelLocalVer.Content = localVersion;
-            LabelLastVer.Content = remoteVersion;
-            if (localVersion != remoteVersion)
-            {
                 BeginDownload(remoteFile, downloadToPath, remoteVersion, "update.txt");
             }
         }

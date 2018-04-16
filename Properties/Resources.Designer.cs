@@ -63,16 +63,6 @@ namespace Launcher_Namespace.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
-        public static byte[] app {
-            get {
-                object obj = ResourceManager.GetObject("app", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Byte[].
-        /// </summary>
         public static byte[] arpspoof {
             get {
                 object obj = ResourceManager.GetObject("arpspoof", resourceCulture);
@@ -106,6 +96,16 @@ namespace Launcher_Namespace.Properties {
         public static byte[] settings {
             get {
                 object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] update {
+            get {
+                object obj = ResourceManager.GetObject("update", resourceCulture);
                 return ((byte[])(obj));
             }
         }
