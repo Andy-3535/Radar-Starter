@@ -65,12 +65,12 @@
                     <TextBox x:Name="TextBoxAhk" HorizontalAlignment="Left" Height="23" Margin="10,343,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="601" Controls:TextBoxHelper.Watermark="Path to 'AHK script' (Mouse double click on field to find path)" MouseDoubleClick="TextBoxAhk_MouseDoubleClick" UndoLimit="500"/>
                     <Button Content="START AHK" HorizontalAlignment="Left" Margin="10,430,0,0" VerticalAlignment="Top" Width="185" Height="39" Click="Button_Click_3"/>
                     <Button x:Name="ButtonPakClear" Content="CLEAR PUBG" HorizontalAlignment="Left" Margin="200,430,0,0" VerticalAlignment="Top" Width="208" Height="39" Click="Button_Click_4" Visibility="Hidden"/>
-                    <RadioButton x:Name="RadiButtonPak1" Content="No recoil 80%, Black texture, No grass, 2 color player, No smoke" HorizontalAlignment="Left" Margin="21,45,0,0" VerticalAlignment="Top" Checked="RadiButtonPak1_Checked"/>
-                    <RadioButton x:Name="RadioButtonPak2" Content="No recoil 100%, 3 color player, No sound" HorizontalAlignment="Left" Margin="21,68,0,0" VerticalAlignment="Top" Checked="RadioButtonPak2_Checked"/>
-                    <RadioButton x:Name="RadioButtonPak3" Content="No recoil 100%, 3 color player, No sound, Fast item pick, Fast weapon switch, Black texture, No grass" HorizontalAlignment="Left" Margin="21,91,0,0" VerticalAlignment="Top" Checked="RadioButtonPak3_Checked"/>
+                    <RadioButton x:Name="RadiButtonPak1" Content="No recoil 80%, Black texture, No grass, 2 color player, No smoke" HorizontalAlignment="Left" Margin="21,45,0,0" VerticalAlignment="Top" Checked="RadiButtonPak1_Checked" IsEnabled="False"/>
+                    <RadioButton x:Name="RadioButtonPak2" Content="No recoil 100%, 3 color player, No sound" HorizontalAlignment="Left" Margin="21,68,0,0" VerticalAlignment="Top" Checked="RadioButtonPak2_Checked" IsEnabled="False"/>
+                    <RadioButton x:Name="RadioButtonPak3" Content="No recoil 100%, 3 color player, No sound, Fast item pick, Fast weapon switch, Black texture, No grass" HorizontalAlignment="Left" Margin="21,91,0,0" VerticalAlignment="Top" Checked="RadioButtonPak3_Checked" IsEnabled="False"/>
                     <Label Content="You can add your AHK script UNDETECT" HorizontalAlignment="Left" Margin="10,312,0,0" VerticalAlignment="Top" Width="236"/>
-                    <RadioButton Content="No recoil 80%, 3 color player, No sound, Fast item pick, Fast weapon switch" HorizontalAlignment="Left" Margin="21,114,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked"/>
-                    <RadioButton Content="No recoil 100%, 3 color player, No sound, Fast heal, Black texture, No grass" HorizontalAlignment="Left" Margin="21,137,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked_1"/>
+                    <RadioButton Content="No recoil 80%, 3 color player, No sound, Fast item pick, Fast weapon switch" HorizontalAlignment="Left" Margin="21,114,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked" IsEnabled="False"/>
+                    <RadioButton Content="No recoil 100%, 3 color player, No sound, Fast heal, Black texture, No grass" HorizontalAlignment="Left" Margin="21,137,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked_1" IsEnabled="False"/>
                     <Label Content="Need path to PUBG folder. Example: C:\Program Files (x86)\Steam\steamapps\common\PUBG" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Width="601"/>
 
                 </Grid>

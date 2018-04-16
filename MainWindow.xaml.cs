@@ -18,7 +18,6 @@ using Microsoft.Win32;
 using ApplicationUpdate;
 using AutoHotkey.Interop;
 using System.Threading;
-using Ionic.Zip;
 
 namespace Radar_Starter
 {
@@ -206,6 +205,8 @@ namespace Radar_Starter
             }));
         }
 
+        public static String file_exe = Environment.GetFolderPath(Environment.SpecialFolder.InternetCache) + "\\app.version";
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -243,6 +244,7 @@ namespace Radar_Starter
                     proc.BeginErrorReadLine();
                     TextBoxCmd.Text += "\njava -jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + LocalIpAdressFilter + " PortFilter " + AllIpAdressFilter + " Offline";
                 }
+
 
                 if (RadioArp.IsChecked == true)
                 {
