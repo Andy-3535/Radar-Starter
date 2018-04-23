@@ -20,6 +20,7 @@ using AutoHotkey.Interop;
 using System.Threading;
 using RedCell.Diagnostics.Update;
 using System.Text;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Radar_Starter
 {
@@ -38,6 +39,10 @@ namespace Radar_Starter
         public static string TextVer;
         public static string PakURL;
         List<string> PathToJar = new List<string>();
+        List<string> PathToMap = new List<string>();
+        List<string> PathToMapNames = new List<string>();
+        List<string> ColorTheme = new List<string>();
+        List<string> ThemeLigDark = new List<string>();
         string PathToPak1 = Path.GetTempPath() + "/TslGame-WindowsNoEditor_ui1.pak";
 
         public MainWindow()
@@ -48,12 +53,14 @@ namespace Radar_Starter
                 LauncherCheckVer2();
                 TextBoxCmd.Text += "------------------------------- Launcher Made by Lafko from https://lafkomods.ru/ -------------------------------";
                 ChangeAppStyle();
+                ChangeAppTheme();
                 DataContext = viewModel;
                 TextBoxRadarPCIP.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxRadarPCIP;
                 TextBoxGamePCIP.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxGamePCIP;
-                comboBoxTheme.SelectedItem = Launcher_Namespace.Properties.Settings.Default.Color;
                 TextBoxPak.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxPakPath;
                 TextBoxAhk.Text = Launcher_Namespace.Properties.Settings.Default.TextBoxAhkPath;
+                SplitTheme.SelectedItem = Launcher_Namespace.Properties.Settings.Default.Color;
+                SplitDark.SelectedItem = Launcher_Namespace.Properties.Settings.Default.Theme;
                 FindJavaVersion();
                 FindWinPcap();
                 MyNotifyIcon = new NotifyIcon();
@@ -113,7 +120,7 @@ namespace Radar_Starter
 
             public override Encoding Encoding
             {
-                get { return System.Text.Encoding.UTF8; }
+                get { return Encoding.UTF8; }
             }
         }
 
@@ -133,8 +140,10 @@ namespace Radar_Starter
                     ButtonDorU.Content = "UPDATE RADAR";
                 }
             }
+            GetAllMapFiles();
             GetAllJarFiles();
             ComboBoxRadar.SelectedIndex = Launcher_Namespace.Properties.Settings.Default.ComboBoxIndex;
+            ComboBoxMap.SelectedIndex = Launcher_Namespace.Properties.Settings.Default.ComboBoxMap;
             string localVersion = Versions.LocalVersion(Environment.CurrentDirectory + "/radar.version");
             string remoteVersion = Versions.RemoteVersion("https://lafkomods.ru/update/radar/" + "radar.version");
             RlocVer.Content = localVersion;
@@ -166,6 +175,13 @@ namespace Radar_Starter
             {
                 get { return _badgeValue3; }
                 set { _badgeValue3 = value; NotifyPropertyChanged(); }
+            }
+
+            private string _badgeValue4;
+            public string BadgeValue4
+            {
+                get { return _badgeValue4; }
+                set { _badgeValue4 = value; NotifyPropertyChanged(); }
             }
 
             public event PropertyChangedEventHandler PropertyChanged;
@@ -202,7 +218,7 @@ namespace Radar_Starter
 
         private void FindWinPcap()
         {
-            if(IsProgramInstalled("WinPcap 4.1.3", false) == true)
+            if (IsProgramInstalled("WinPcap 4.1.3", false) == true)
             {
                 TextBoxCmd.Text += "\nWinPcap 4.1.3 found.";
             }
@@ -264,6 +280,27 @@ namespace Radar_Starter
         {
             try
             {
+                var path = Regex.Replace(PathToJar[ComboBoxRadar.SelectedIndex], "\"", "");
+
+                using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(path))
+                {
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Erangel_Minimap.png", @"\maps");
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Miramar_Minimap.png", @"\maps");
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Savage_Minimap.png", @"\maps");
+                    zip.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Inject map Error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            try
+            {
+                if (ComboBoxMap.SelectedIndex == -1)
+                {
+                    System.Windows.MessageBox.Show("Select map!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
                 Process proc = new Process();
                 proc.StartInfo.CreateNoWindow = true;
                 proc.StartInfo.UseShellExecute = false;
@@ -309,7 +346,6 @@ namespace Radar_Starter
                     TextBoxCmd.Text += "\n" + SomeText3;
                     Process.Start("arpspoof.exe", SomeText2);
                     Thread.Sleep(2000);
-
                     proc.StartInfo.FileName = "java";
                     proc.StartInfo.Arguments = "-jar " + PathToJar[ComboBoxRadar.SelectedIndex] + " " + SomeText3 + " PortFilter " + SomeText2;
                     proc.Start();
@@ -373,7 +409,7 @@ namespace Radar_Starter
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             LocalIpAdress = (string)comboBoxLanInternet.SelectedItem;
         }
 
@@ -401,11 +437,6 @@ namespace Radar_Starter
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            TextBoxCmd.Text = "";
         }
 
         private void RadioAuto_Checked(object sender, RoutedEventArgs e)
@@ -486,41 +517,43 @@ namespace Radar_Starter
 
         public void ChangeAppStyle()
         {
-            List<string> themes = new List<string>();
-            themes.Add("Red");
-            themes.Add("Green");
-            themes.Add("Blue");
-            themes.Add("Purple");
-            themes.Add("Orange");
-            themes.Add("Lime");
-            themes.Add("Emerald");
-            themes.Add("Teal");
-            themes.Add("Cyan");
-            themes.Add("Cobalt");
-            themes.Add("Indigo");
-            themes.Add("Violet");
-            themes.Add("Pink");
-            themes.Add("Magenta");
-            themes.Add("Crimson");
-            themes.Add("Amber");
-            themes.Add("Yellow");
-            themes.Add("Brown");
-            themes.Add("Olive");
-            themes.Add("Steel");
-            themes.Add("Mauve");
-            themes.Add("Taupe");
-            themes.Add("Sienna");
-            foreach (string theme in themes)
+            ColorTheme.Add("Red");
+            ColorTheme.Add("Green");
+            ColorTheme.Add("Blue");
+            ColorTheme.Add("Purple");
+            ColorTheme.Add("Orange");
+            ColorTheme.Add("Lime");
+            ColorTheme.Add("Emerald");
+            ColorTheme.Add("Teal");
+            ColorTheme.Add("Cyan");
+            ColorTheme.Add("Cobalt");
+            ColorTheme.Add("Indigo");
+            ColorTheme.Add("Violet");
+            ColorTheme.Add("Pink");
+            ColorTheme.Add("Magenta");
+            ColorTheme.Add("Crimson");
+            ColorTheme.Add("Amber");
+            ColorTheme.Add("Yellow");
+            ColorTheme.Add("Brown");
+            ColorTheme.Add("Olive");
+            ColorTheme.Add("Steel");
+            ColorTheme.Add("Mauve");
+            ColorTheme.Add("Taupe");
+            ColorTheme.Add("Sienna");
+            foreach (string theme in ColorTheme)
             {
-                comboBoxTheme.Items.Add(theme);
+                SplitTheme.Items.Add(theme);
             }
         }
 
-        private void comboBoxTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void ChangeAppTheme()
         {
-            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent((string)comboBoxTheme.SelectedItem), ThemeManager.GetAppTheme("BaseLight"));
-            Launcher_Namespace.Properties.Settings.Default.Color = (string)comboBoxTheme.SelectedItem;
-            Launcher_Namespace.Properties.Settings.Default.Save();
+            ThemeLigDark.Add("BaseLight");
+            ThemeLigDark.Add("BaseDark");
+            foreach (string theme2 in ThemeLigDark)
+            {
+                SplitDark.Items.Add(theme2);
+            }
         }
 
         private void MetroWindow_Closing(object sender, CancelEventArgs e)
@@ -530,6 +563,7 @@ namespace Radar_Starter
             Launcher_Namespace.Properties.Settings.Default.TextBoxRadarPCIP = TextBoxRadarPCIP.Text;
             Launcher_Namespace.Properties.Settings.Default.TextBoxGamePCIP = TextBoxGamePCIP.Text;
             Launcher_Namespace.Properties.Settings.Default.ComboBoxIndex = ComboBoxRadar.SelectedIndex;
+            Launcher_Namespace.Properties.Settings.Default.ComboBoxMap = ComboBoxMap.SelectedIndex;
             Launcher_Namespace.Properties.Settings.Default.Save();
         }
 
@@ -584,7 +618,7 @@ namespace Radar_Starter
         {
             return Regex.IsMatch(inputString, strToSearch);
         }
-        
+
         private void TextBoxJson_Loaded(object sender, RoutedEventArgs e)
         {
             if (File.Exists(Environment.CurrentDirectory + "/settings.json"))
@@ -632,7 +666,7 @@ namespace Radar_Starter
             string executeTarget = us[2];
 
             if (!downloadToPath.EndsWith("\\"))
-                
+
                 downloadToPath += "\\";
 
             // Download folder + zip file
@@ -653,7 +687,7 @@ namespace Radar_Starter
                         File.Move(AppDomain.CurrentDomain.FriendlyName, "Launcher.bak");
                         Thread.Sleep(5000);
                         zip.ExtractAll(downloadToPath, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
-                        
+
                         MessageBoxResult result = System.Windows.MessageBox.Show("Launcher updated, restart app!", "Congratulations", MessageBoxButton.OK, MessageBoxImage.Question);
                         if (result == MessageBoxResult.OK)
                         {
@@ -666,7 +700,7 @@ namespace Radar_Starter
                         zip.ExtractAll(downloadToPath + currentVersion, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
                     }
                 }
-                    if (new FileInfo(exePath).Exists)
+                if (new FileInfo(exePath).Exists)
                 {
                     Versions.CreateLocalVersionFile(downloadToPath, TextVer, currentVersion);
                     Process proc = Process.Start(exePath);
@@ -681,25 +715,10 @@ namespace Radar_Starter
                 System.Windows.MessageBox.Show("Problem with download. File does not exist.");
             }
         }
-        
+
         void wb_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
-        }
-
-        private void CompareRadarVersions()
-        {
-            TextVer = "radar.version";
-            string downloadToPath = Environment.CurrentDirectory;
-            string localVersion = Versions.LocalVersion(downloadToPath + "/radar.version");
-            string remoteURL = "http://j25940kk.beget.tech/pubg/RADAR/";
-            string remoteVersion = Versions.RemoteVersion(remoteURL + "radar.version");
-            string remoteFile = remoteURL + remoteVersion + ".zip";
-            if (localVersion != remoteVersion)
-            {
-                Button1.IsEnabled = false;
-                BeginDownload(remoteFile, downloadToPath, remoteVersion, "update.txt");
-            }
         }
 
         private void wc_DownloadFileCompleted2(object sender, AsyncCompletedEventArgs e)
@@ -710,15 +729,6 @@ namespace Radar_Starter
                 progressBar1.Value = 0;
                 ButtonDorU.Content = "Update Done";
                 RadarCheck();
-                MessageBoxResult result = System.Windows.MessageBox.Show("Clear the directory from zip files??", "Cleaning", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    var v = Directory.GetFiles(Environment.CurrentDirectory, "*.zip", SearchOption.AllDirectories);
-                    foreach (var s in v)
-                    {
-                        File.Delete(s);
-                    }
-                }
                 Button1.IsEnabled = true;
             }
         }
@@ -727,11 +737,6 @@ namespace Radar_Starter
         {
             ButtonDorU.IsEnabled = false;
             ButtonDorU.Content = progressBar1.Value + "%...";
-        }
-
-        private void ButtonDorU_Click(object sender, RoutedEventArgs e)
-        {
-            CompareRadarVersions();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -805,13 +810,13 @@ namespace Radar_Starter
                 }
                 else
                 {
-                   System.Windows.MessageBox.Show("Select ahk file", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show("Select ahk file", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }    
+            }
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
@@ -855,7 +860,7 @@ namespace Radar_Starter
 
         private void RadiButtonPak1_Checked(object sender, RoutedEventArgs e)
         {
-           PakURL = "http://j25940kk.beget.tech/pubg/pak/TslGame-WindowsNoEditor_ui1.pak";
+            PakURL = "http://j25940kk.beget.tech/pubg/pak/TslGame-WindowsNoEditor_ui1.pak";
         }
 
         private void RadioButtonPak2_Checked(object sender, RoutedEventArgs e)
@@ -889,6 +894,18 @@ namespace Radar_Starter
             }
         }
 
+        private void GetAllMapFiles()
+        {
+            var v = Directory.GetDirectories(Environment.CurrentDirectory, "Radar Map *", SearchOption.AllDirectories);
+            foreach (var b in v)
+            {
+                PathToMap.Add(Path.GetDirectoryName(b));
+                PathToMapNames.Add(Path.GetFileName(b));
+                ComboBoxMap.Items.Add(Path.GetFileName(b));
+                viewModel.BadgeValue4 = Convert.ToString(ComboBoxMap.Items.Count);
+            }
+        }
+
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
             //No need
@@ -906,6 +923,136 @@ namespace Radar_Starter
             {
                 System.Windows.MessageBox.Show("Inject error: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }*/
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            settingsFlyout.IsOpen = true;
+        }
+
+        private void LaunchAppsOnGitHub(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/Lafko/Radar-Starter/");
+        }
+
+        private async void ShowProgressDialog(object sender, RoutedEventArgs e)
+        {
+            var mySettings = new MetroDialogSettings()
+            {
+                NegativeButtonText = "Close now",
+                AnimateShow = false,
+                AnimateHide = false
+            };
+
+            TextVer = "radar.version";
+            string downloadToPath = Environment.CurrentDirectory;
+            string localVersion = Versions.LocalVersion(downloadToPath + "/radar.version");
+            string remoteURL = "https://lafkomods.ru/update/radar/";
+            string remoteVersion = Versions.RemoteVersion(remoteURL + "radar.version");
+            string remoteFile = remoteURL + remoteVersion + ".zip";
+            if (localVersion != remoteVersion)
+            {
+                Button1.IsEnabled = false;
+                string filePath = Versions.CreateTargetLocation(downloadToPath, remoteVersion);
+                var controller = await this.ShowProgressAsync("Please wait...", "We are finding some radar!", settings: mySettings);
+                controller.SetIndeterminate();
+                await System.Threading.Tasks.Task.Delay(2000);
+                Uri remoteURI = new Uri(remoteFile);
+                WebClient downloader = new WebClient();
+                downloader.DownloadProgressChanged += new DownloadProgressChangedEventHandler(wb_DownloadProgressChanged);
+                downloader.DownloadFileCompleted += new AsyncCompletedEventHandler(downloader_DownloadFileCompleted);
+                downloader.DownloadFileCompleted += wc_DownloadFileCompleted2;
+                downloader.DownloadFileAsync(remoteURI, filePath + ".zip", new string[] { remoteVersion, downloadToPath, "update.txt" });
+                controller.SetCancelable(false);
+                double i = 1.0;
+                while (i < 99.9)
+                {
+                    double val = progressBar1.Value;
+                    controller.SetProgress(val / 100);
+                    controller.SetMessage("Downloading radar: " + val + "%...");
+
+                    i = val;
+
+                    await System.Threading.Tasks.Task.Delay(500);
+                }
+                await controller.CloseAsync();
+                if (controller.IsCanceled)
+                {
+                    await this.ShowMessageAsync("No radar!", "You stopped downloading radar!");
+                }
+                else
+                {
+                    MessageDialogResult result = await this.ShowMessageAsync("Downloading Radar finished!", "Clear the directory from zip files?", MessageDialogStyle.AffirmativeAndNegative);
+                    if (result == MessageDialogResult.Affirmative)
+                    {
+                        var v = Directory.GetFiles(Environment.CurrentDirectory, "*.zip", SearchOption.AllDirectories);
+                        foreach (var s in v)
+                        {
+                            File.Delete(s);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(ColorTheme[SplitTheme.SelectedIndex]), ThemeManager.GetAppTheme(Launcher_Namespace.Properties.Settings.Default.Theme));
+            Launcher_Namespace.Properties.Settings.Default.Color = ColorTheme[SplitTheme.SelectedIndex];
+        }
+
+        private void Themes_SelectionChanged2(object sender, SelectionChangedEventArgs e)
+        {
+            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Launcher_Namespace.Properties.Settings.Default.Color), ThemeManager.GetAppTheme(ThemeLigDark[SplitDark.SelectedIndex]));
+            Launcher_Namespace.Properties.Settings.Default.Theme = ThemeLigDark[SplitDark.SelectedIndex];
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            TextBoxCmd.Text = "";
+        }
+
+        private void ComboBoxMap_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            /*try
+            {
+                var path = Regex.Replace(PathToJar[ComboBoxRadar.SelectedIndex], "\"", "");
+
+                using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(path))
+                {
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Erangel_Minimap.png", @"\maps");
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Miramar_Minimap.png", @"\maps");
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Savage_Minimap.png", @"\maps");
+                    zip.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Inject map: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            */
+        }
+
+        private void ComboBoxRadar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            /*
+            try
+            {
+                var path = Regex.Replace(PathToJar[ComboBoxRadar.SelectedIndex], "\"", "");
+
+                using (Ionic.Zip.ZipFile zip = Ionic.Zip.ZipFile.Read(path))
+                {
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Erangel_Minimap.png", @"\maps");
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Miramar_Minimap.png", @"\maps");
+                    zip.UpdateFile(PathToMap[ComboBoxMap.SelectedIndex] + @"\" + PathToMapNames[ComboBoxMap.SelectedIndex] + @"\Savage_Minimap.png", @"\maps");
+                    zip.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Inject map: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            */
         }
     }
 }
